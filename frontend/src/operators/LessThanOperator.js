@@ -6,6 +6,6 @@ export class LessThanOperator {
     }
 
     // eslint-disable-next-line
-    drawInAddConstraint(container){
+    drawSetup(container){
     }
 }

@@ -8,28 +8,37 @@ export class InOperator {
     }
 
     getValuesAsJSON(){
+        console.log(this.options);
+        console.log(JSON.stringify(this.options));
         return JSON.stringify(this.options);
     }
 
-    drawInAddConstraint(container){
-        createInput(container);
+    drawSetup(container){
+        this.createInput(container);
+    }
+
+    createInput(container) {
+        // Create the label element
+        const labelElement = document.createElement('label');
+        labelElement.textContent = 'Values: ';
+    
+        // Create the input element
+        const inputElement = document.createElement('input');
+        inputElement.type = 'text';
+        inputElement.name = 'valuesInput'; // Set the name attribute (used when submitting the form)
+        inputElement.placeholder = "['value1','value2',...]";
+        inputElement.addEventListener('change', (event) => this.onInputChange(event));
+      
+        // Append the input element to the form
+        container.appendChild(labelElement);
+        container.appendChild(inputElement);
+    }
+
+    onInputChange(event) {
+        this.options = event.target.value;
+        console.log(this.options);
     }
 }
 
 
 
-function createInput(container) {
-    // Create the label element
-    const labelElement = document.createElement('label');
-    labelElement.textContent = 'Values: ';
-
-    // Create the input element
-    const inputElement = document.createElement('input');
-    inputElement.type = 'text';
-    inputElement.name = 'valuesInput'; // Set the name attribute (used when submitting the form)
-    inputElement.placeholder = "['value1','value2',...]";
-  
-    // Append the input element to the form
-    container.appendChild(labelElement);
-    container.appendChild(inputElement);
-  }

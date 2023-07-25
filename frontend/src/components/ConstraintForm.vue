@@ -24,7 +24,7 @@
 <script>
 import api from '@/api.js';
 // eslint-disable-next-line
-import { operators, DrawOperatorInAddConstraint } from '../operators/Operators.js'; 
+import { operators } from '../operators/Operators.js'; 
 
 export default {
   data() {
@@ -43,13 +43,26 @@ export default {
         this.operatorTypes.push(operator.getSymbol())
       });
     },
+    clearContainer(container){
+      const elementsToDelete = [...container.children];
+      if (elementsToDelete){
+          elementsToDelete.forEach(element => {
+              container.removeChild(element);
+          });
+      }
+    },
     // eslint-disable-next-line
-    onOperatorDropdownChange(_event) {
-      DrawOperatorInAddConstraint(this.selectedType, document.getElementById('inputValuesContainer'));
+    onOperatorDropdownChange(event) {
+      const valuesContainer = document.getElementById('inputValuesContainer');
+      const selectedIndex = event.target.selectedIndex;
+      this.operator = operators[selectedIndex];
+      this.clearContainer(valuesContainer);
+      this.operator.drawSetup(valuesContainer);
     },
     // Function to create a new Constraint
     async createConstraint() {
-      // validate que l<op existe
+      // TODO validate que l<op existe
+      console.log('operator: ' + this.operator);
       console.log(this.name, this.selectedType, this.operator.getValuesAsJSON());
       try {
         const response = await api.post('/constraints', {
