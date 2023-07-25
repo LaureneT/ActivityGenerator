@@ -4,10 +4,17 @@ datasource db {
   url      = "file:./dev.db"
 }
 
-model Todo {
-  id        Int      @id @default(autoincrement())
-  title     String
-  completed Boolean  @default(false)
+model Constraint {
+  id    Int     @id @default(autoincrement())
+  name   String  @unique
+  type  String
+  values String?
+}
+
+model Activity {
+  id          Int          @id @default(autoincrement())
+  name         String       @unique
+  constraints String?
 }
 
 generator client {
