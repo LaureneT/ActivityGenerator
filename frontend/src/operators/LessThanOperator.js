@@ -16,6 +16,17 @@ export class LessThanOperator {
 
     // eslint-disable-next-line
     drawConfig(container){
-        console.log('drawing config for op <=');
+        // Create the label element
+        const labelElement = document.createElement('label');
+        labelElement.textContent = 'Value: ';
+    
+        // Create the input element
+        const inputElement = document.createElement('input');
+        inputElement.type = 'text';
+        inputElement.name = 'valueInput'; 
+      
+        // Append the input element to the form
+        container.appendChild(labelElement);
+        container.appendChild(inputElement);
     }
 }

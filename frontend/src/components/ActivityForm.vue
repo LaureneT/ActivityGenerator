@@ -54,13 +54,13 @@
         // eslint-disable-next-line
         onConstraintDropdownChange(event){
             this.selectedOperator = GetOperatorWithSymbol(this.selectedConstraint.type);
+            const valuesContainer = document.getElementById('inputConfigValuesContainer');
             if (this.selectedConstraint.values){
-                const valuesContainer = document.getElementById('inputConfigValuesContainer');
                 const valuesJSON = JSON.parse(this.selectedConstraint.values);
                 this.selectedOperator.drawConfig(valuesContainer, valuesJSON);
             }
             else{
-                console.log('Selected constraint does not have values.');
+                this.selectedOperator.drawConfig(valuesContainer);
             }
         },
         // Function to create a new Constraint
