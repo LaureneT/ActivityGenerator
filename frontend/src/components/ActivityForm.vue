@@ -16,20 +16,32 @@
   </template>
   
   <script>
+    import api from '@/api.js';
 
   export default {
     data() {
       return {
         name: '',
+        constraints: [],
         error: '',
       };
     },
     methods: {
-      // Function to create a new Constraint
-      async createActivity() {
-      }
+        async fetchAllConstraints(){
+            try {
+                const response = await api.get('/constraints');
+                this.constraints = response.data;
+            } catch (error) {
+                console.error('Error fetching constraints:', error);
+                throw new Error('An error occurred while fetching constraints.');
+            }
+        },
+        // Function to create a new Constraint
+        async createActivity() {
+        }
     },
     mounted() {
+        this.fetchAllConstraints();
     },
   };
   </script>

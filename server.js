@@ -43,6 +43,17 @@ app.post('/constraints', async (req, res) => {
   }
 });
 
+app.get('/constraints', async (req, res) => {
+  try {
+    // Query all activities from the database using Prisma
+    const allConstraints = await prisma.constraint.findMany();
+    res.json(allConstraints);
+  } catch (error) {
+    console.error('Error fetching constraints:', error);
+    res.status(500).json({ error: 'An error occurred while fetching constraints.' });
+  }
+});
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
