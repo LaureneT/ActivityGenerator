@@ -14,19 +14,19 @@ export class InOperator {
     }
 
     drawSetup(container){
-        this.createInput(container);
+        this.createValuesInput(container);
     }
 
-    createInput(container) {
+    createValuesInput(container) {
         // Create the label element
         const labelElement = document.createElement('label');
-        labelElement.textContent = 'Values: ';
+        labelElement.textContent = 'Values (JSON): ';
     
         // Create the input element
         const inputElement = document.createElement('input');
         inputElement.type = 'text';
         inputElement.name = 'valuesInput'; 
-        inputElement.placeholder = "['value1','value2',...]";
+        inputElement.placeholder = '["value1","value2",...]';
         inputElement.addEventListener('change', (event) => this.onInputChange(event));
       
         // Append the input element to the form
@@ -39,8 +39,21 @@ export class InOperator {
     }
 
   
-    drawConfig(){
-        console.log('drawing config for op IN');
+    drawConfig(container, values){
+        const valuesJSON = JSON.parse(values);
+        valuesJSON.forEach((option) => {
+            // Create an input element with label
+            const labelElement = document.createElement('label');
+            labelElement.textContent = option + ': '; 
+
+            const inputElement = document.createElement('input');
+            inputElement.type = 'text';
+            inputElement.name = option;
+
+            // Append the input element to the form
+            container.appendChild(labelElement);
+            container.appendChild(inputElement);
+        });
     }
 }
 

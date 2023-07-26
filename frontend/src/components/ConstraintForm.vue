@@ -15,7 +15,7 @@
       </div>
 
       <!-- Show fields based on the selected type of operator -->
-      <div id="inputValuesContainer"></div>
+      <div id="inputSetupValuesContainer"></div>
 
       <!-- TODO Afficher un message d'erreur si la contrainte existe déjà -->
       <p v-if="error">{{ error }}</p>
@@ -57,7 +57,7 @@ export default {
     },
     // eslint-disable-next-line
     onOperatorDropdownChange(event) {
-      const valuesContainer = document.getElementById('inputValuesContainer');
+      const valuesContainer = document.getElementById('inputSetupValuesContainer');
       const selectedIndex = event.target.selectedIndex;
       this.operator = operators[selectedIndex];
       this.clearContainer(valuesContainer);

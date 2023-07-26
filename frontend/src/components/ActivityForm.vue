@@ -14,6 +14,9 @@
             </select>
         </div>
 
+        <!-- Show fields based on the selected type of operator -->
+        <div id="inputConfigValuesContainer"></div>
+
         <!-- TODO Afficher un message d'erreur si la contrainte existe déjà -->
         <p v-if="error">{{ error }}</p>
         
@@ -50,7 +53,14 @@
         // eslint-disable-next-line
         onConstraintDropdownChange(event){
             this.selectedOperator = GetOperatorWithSymbol(this.selectedConstraint.type);
-            this.selectedOperator.drawConfig(); // todo
+            if (this.selectedConstraint.values){
+                const valuesContainer = document.getElementById('inputConfigValuesContainer');
+                const valuesJSON = JSON.parse(this.selectedConstraint.values);
+                this.selectedOperator.drawConfig(valuesContainer, valuesJSON);
+            }
+            else{
+                console.log('');
+            }
         },
         // Function to create a new Constraint
         async createActivity() {
