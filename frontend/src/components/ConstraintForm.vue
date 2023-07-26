@@ -2,20 +2,24 @@
   <div>
     <h2>Add Constraint</h2>
     <form @submit.prevent="createConstraint">
-      <label>Name: </label>
+      <div>
+        <label>Name: </label>
       <input v-model="name" type="text" />
+      </div>
 
-      <label>Type: </label>
-      <select id="operatorDropdown" @change="onOperatorDropdownChange" v-model="selectedType">
-        <option v-for="option in operatorTypes" :value="option" :key="option">{{ option }}</option>
-      </select>
+      <div>
+        <label>Type: </label>
+        <select id="operatorDropdown" @change="onOperatorDropdownChange" v-model="selectedType">
+          <option v-for="option in operatorTypes" :value="option" :key="option">{{ option }}</option>
+        </select>
+      </div>
 
-      <!-- Show fields based on the selected type -->
+      <!-- Show fields based on the selected type of operator -->
       <div id="inputValuesContainer"></div>
 
-      <!-- Afficher un message d'erreur si la contrainte existe déjà -->
+      <!-- TODO Afficher un message d'erreur si la contrainte existe déjà -->
       <p v-if="error">{{ error }}</p>
-
+      
       <button type="submit">Add</button>
     </form>
   </div>
@@ -29,7 +33,7 @@ import { operators } from '../operators/Operators.js';
 export default {
   data() {
     return {
-      name: '', // Propriété pour stocker le nom de la contrainte
+      name: '',
       operatorTypes: [],
       selectedType: '',
       exists: false,
@@ -61,16 +65,16 @@ export default {
     },
     // Function to create a new Constraint
     async createConstraint() {
-      // TODO validate que l<op existe
-      console.log('operator: ' + this.operator);
-      console.log(this.name, this.selectedType, this.operator.getValuesAsJSON());
+      // TODO draw error : 'need to fill the fields'
       try {
-        const response = await api.post('/constraints', {
-          name: this.name,
-          type: this.selectedType,
-          values: this.operator.getValuesAsJSON(),
-        });
-        return response.data;
+        if (this.operator) {
+          const response = await api.post('/constraints', {
+            name: this.name,
+            type: this.selectedType,
+            values: this.operator.getValuesAsJSON(),
+          });
+          return response.data;
+        }
       } catch (error) {
         console.error('Error creating Constraint:', error);
         throw new Error('An error occurred while creating the Constraint.');

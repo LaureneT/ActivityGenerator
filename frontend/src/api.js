@@ -1,4 +1,6 @@
 // src/api.js
+// client-side utility
+
 import axios from 'axios';
 
 const instance = axios.create({
