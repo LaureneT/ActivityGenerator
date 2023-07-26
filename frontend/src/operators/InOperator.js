@@ -8,8 +8,6 @@ export class InOperator {
     }
 
     getValuesAsJSON(){
-        console.log(this.options);
-        console.log(JSON.stringify(this.options));
         return JSON.stringify(this.options);
     }
 

@@ -5,6 +5,10 @@ export class LessThanOperator {
         return "<=";
     }
 
+    getValuesAsJSON(){
+        return "";
+    }
+
     // eslint-disable-next-line
     drawSetup(container){
         console.log('drawing setup for op <=');
