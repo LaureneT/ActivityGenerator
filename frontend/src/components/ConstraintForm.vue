@@ -20,7 +20,7 @@
       <!-- TODO Afficher un message d'erreur si la contrainte existe déjà -->
       <p v-if="error">{{ error }}</p>
       
-      <button type="submit">Add</button>
+      <button type="submit">Add New Constraint</button>
     </form>
   </div>
 </template>

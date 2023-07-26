@@ -20,7 +20,7 @@
         <!-- TODO Afficher un message d'erreur si la contrainte existe déjà -->
         <p v-if="error">{{ error }}</p>
         
-        <button type="submit">Add</button>
+        <button type="submit">Add New Activity</button>
       </form>
     </div>
   </template>
@@ -37,6 +37,7 @@
         constraints: [],
         selectedConstraint: '',
         selectedOperator: null,
+        constraintsConfig: null,
         error: '',
       };
     },
@@ -59,11 +60,21 @@
                 this.selectedOperator.drawConfig(valuesContainer, valuesJSON);
             }
             else{
-                console.log('');
+                console.log('Selected constraint does not have values.');
             }
         },
         // Function to create a new Constraint
         async createActivity() {
+            try {
+                const response = await api.post('/activities', {
+                name: this.name,
+                constraints: this.constraintsConfig,
+                })
+                return response.data;
+            } catch (error) {
+                console.error('Error creating Constraint:', error);
+                //throw new Error('An error occurred while creating the Constraint.');
+            }
         }
     },
     mounted() {

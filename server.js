@@ -43,6 +43,7 @@ app.post('/constraints', async (req, res) => {
   }
 });
 
+// Route to get all Constraints
 app.get('/constraints', async (req, res) => {
   try {
     // Query all activities from the database using Prisma
@@ -51,6 +52,38 @@ app.get('/constraints', async (req, res) => {
   } catch (error) {
     console.error('Error fetching constraints:', error);
     res.status(500).json({ error: 'An error occurred while fetching constraints.' });
+  }
+});
+
+// Route to create a new Activity
+app.post('/activities', async (req, res) => {
+  try {
+    const { name, constraints } = req.body;
+
+    // Check if an activity with the same name already exists
+    const exisitingActivity = await prisma.activity.findUnique({
+      where: {
+        name: name,
+      },
+    });
+
+    if (exisitingActivity) {
+      // If an activity with the same name exists, return an error response
+      return res.status(400).json({ error: 'An activity with the same name already exists.' });
+    }
+
+    // Create a new Activity in the database using Prisma
+    const newActivity = await prisma.activity.create({
+      data: {
+        name,
+        constraints,
+      },
+    });
+
+    res.json(newActivity);
+  } catch (error) {
+    console.error('Error creating Activity:', error);
+    res.status(500).json({ error: 'An error occurred while creating the Activity.' });
   }
 });
 
