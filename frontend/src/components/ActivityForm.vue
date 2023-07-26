@@ -7,6 +7,13 @@
         <input v-model="name" type="text" />
         </div>
 
+        <div>
+            <label>Constraint: </label>
+            <select id="constraintDropdown" v-model="selectedConstraint">
+            <option v-for="option in constraints" :value="option" :key="option">{{ option.name }}</option>
+            </select>
+        </div>
+
         <!-- TODO Afficher un message d'erreur si la contrainte existe déjà -->
         <p v-if="error">{{ error }}</p>
         
@@ -23,6 +30,7 @@
       return {
         name: '',
         constraints: [],
+        selectedConstraint: '',
         error: '',
       };
     },
