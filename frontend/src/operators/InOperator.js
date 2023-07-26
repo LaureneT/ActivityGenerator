@@ -41,19 +41,21 @@ export class InOperator {
   
     drawConfig(container, values){
         const valuesJSON = JSON.parse(values);
+
+        // Create the select (dropdown) element
+        const selectElement = document.createElement('select');
+        selectElement.name = 'selectedOption';
+
+        // Add options to the select element
         valuesJSON.forEach((option) => {
-            // Create an input element with label
-            const labelElement = document.createElement('label');
-            labelElement.textContent = option + ': '; 
-
-            const inputElement = document.createElement('input');
-            inputElement.type = 'text';
-            inputElement.name = option;
-
-            // Append the input element to the form
-            container.appendChild(labelElement);
-            container.appendChild(inputElement);
+        const optionElement = document.createElement('option');
+        optionElement.value = option;
+        optionElement.textContent = option;
+        selectElement.appendChild(optionElement);
         });
+
+        // Append the select element to the container
+        container.appendChild(selectElement);   
     }
 }
 
