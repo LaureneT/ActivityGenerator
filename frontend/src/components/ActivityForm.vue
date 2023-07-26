@@ -10,7 +10,7 @@
         <div>
             <label>Constraint: </label>
             <select id="constraintDropdown" @change="onConstraintDropdownChange" v-model="selectedConstraint">
-            <option v-for="option in constraints" :value="option" :key="option">{{ option }}</option>
+            <option v-for="option in constraints" :value="option" :key="option">{{ option.name }}</option>
             </select>
         </div>
 
@@ -70,6 +70,7 @@
                 name: this.name,
                 constraints: this.constraintsConfig,
                 })
+                console.error('Activity sucessfully created.');
                 return response.data;
             } catch (error) {
                 console.error('Error creating Constraint:', error);

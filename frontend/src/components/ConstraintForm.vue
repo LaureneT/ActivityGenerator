@@ -75,6 +75,7 @@ export default {
           });
           return response.data;
         }
+        console.error('Constraint sucessfully created.');
       } catch (error) {
         console.error('Error creating Constraint:', error);
         throw new Error('An error occurred while creating the Constraint.');
