@@ -9,8 +9,8 @@
 
         <div>
             <label>Constraint: </label>
-            <select id="constraintDropdown" v-model="selectedConstraint">
-            <option v-for="option in constraints" :value="option" :key="option">{{ option.name }}</option>
+            <select id="constraintDropdown" @change="onConstraintDropdownChange" v-model="selectedConstraint">
+            <option v-for="option in constraints" :value="option" :key="option">{{ option }}</option>
             </select>
         </div>
 
@@ -24,6 +24,8 @@
   
   <script>
     import api from '@/api.js';
+    // eslint-disable-next-line
+    import { operators, GetOperatorWithSymbol } from '../operators/Operators.js'; 
 
   export default {
     data() {
@@ -31,6 +33,7 @@
         name: '',
         constraints: [],
         selectedConstraint: '',
+        selectedOperator: null,
         error: '',
       };
     },
@@ -43,6 +46,11 @@
                 console.error('Error fetching constraints:', error);
                 throw new Error('An error occurred while fetching constraints.');
             }
+        },
+        // eslint-disable-next-line
+        onConstraintDropdownChange(event){
+            this.selectedOperator = GetOperatorWithSymbol(this.selectedConstraint.type);
+            this.selectedOperator.drawConfig(); // todo
         },
         // Function to create a new Constraint
         async createActivity() {

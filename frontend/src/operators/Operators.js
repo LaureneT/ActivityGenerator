@@ -6,3 +6,13 @@ export var operators = [
     new InOperator(),
     new LessThanOperator(),
 ];
+
+export function GetOperatorWithSymbol(symbol){
+    var result = null;
+    operators.forEach((operator) => {
+        if (operator.getSymbol() === symbol){
+            result = operator;
+        }
+    })
+    return result;
+}

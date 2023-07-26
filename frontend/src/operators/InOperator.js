@@ -25,7 +25,7 @@ export class InOperator {
         // Create the input element
         const inputElement = document.createElement('input');
         inputElement.type = 'text';
-        inputElement.name = 'valuesInput'; // Set the name attribute (used when submitting the form)
+        inputElement.name = 'valuesInput'; 
         inputElement.placeholder = "['value1','value2',...]";
         inputElement.addEventListener('change', (event) => this.onInputChange(event));
       
@@ -36,7 +36,11 @@ export class InOperator {
 
     onInputChange(event) {
         this.options = event.target.value;
-        console.log(this.options);
+    }
+
+  
+    drawConfig(){
+        console.log('drawing config for op IN');
     }
 }
 
