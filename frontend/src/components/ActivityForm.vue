@@ -51,10 +51,19 @@
                 throw new Error('An error occurred while fetching constraints.');
             }
         },
+        clearContainer(container){
+          const elementsToDelete = [...container.children];
+          if (elementsToDelete){
+              elementsToDelete.forEach(element => {
+                  container.removeChild(element);
+              });
+          }
+        },
         // eslint-disable-next-line
         onConstraintDropdownChange(event){
             this.selectedOperator = GetOperatorWithSymbol(this.selectedConstraint.type);
             const valuesContainer = document.getElementById('inputConfigValuesContainer');
+            this.clearContainer(valuesContainer);
             if (this.selectedConstraint.values){
                 const valuesJSON = JSON.parse(this.selectedConstraint.values);
                 this.selectedOperator.drawConfig(valuesContainer, valuesJSON);
