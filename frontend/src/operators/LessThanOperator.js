@@ -28,5 +28,14 @@ export class LessThanOperator {
         // Append the input element to the form
         container.appendChild(labelElement);
         container.appendChild(inputElement);
+
+        // Lambda expression (arrow function) for capturing user input
+        const getUserInput = () => {
+            const inputValue = inputElement.value;
+            return JSON.stringify(inputValue);
+        };
+
+        // Return the lambda expression
+        return getUserInput;
     }
 }
