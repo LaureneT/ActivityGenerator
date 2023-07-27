@@ -43,13 +43,19 @@ export class InOperator {
         // Create the select (dropdown) element
         const selectElement = document.createElement('select');
         selectElement.name = 'selectedOption';
+        
+        // Add an empty option as the default "void" selection
+        const defaultOption = document.createElement('option');
+        defaultOption.value = ''; // You can set the value to null or any other value if needed
+        defaultOption.textContent = 'Select an option'; // You can provide any appropriate text here
+        selectElement.appendChild(defaultOption);
 
         // Add options to the select element
         valuesJSON.forEach((option) => {
-        const optionElement = document.createElement('option');
-        optionElement.value = option;
-        optionElement.textContent = option;
-        selectElement.appendChild(optionElement);
+            const optionElement = document.createElement('option');
+            optionElement.value = option;
+            optionElement.textContent = option;
+            selectElement.appendChild(optionElement);
         });
 
         // Append the select element to the container
