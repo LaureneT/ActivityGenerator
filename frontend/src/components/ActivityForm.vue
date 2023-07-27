@@ -27,8 +27,7 @@
   
   <script>
     import api from '@/api.js';
-    // eslint-disable-next-line
-    import { operators, GetOperatorWithSymbol } from '../operators/Operators.js'; 
+    import { GetOperatorWithSymbol } from '../operators/Operators.js'; 
 
   export default {
     data() {
@@ -63,26 +62,30 @@
         onConstraintDropdownChange(event){
             this.selectedOperator = GetOperatorWithSymbol(this.selectedConstraint.type);
             const valuesContainer = document.getElementById('inputConfigValuesContainer');
-            this.clearContainer(valuesContainer);
 
-            var userConstraintConfigInput = null;
-            if (this.selectedConstraint.values){
-                const valuesJSON = JSON.parse(this.selectedConstraint.values);
-                userConstraintConfigInput = this.selectedOperator.drawConfig(valuesContainer, valuesJSON);
-            }
-            else{
-                userConstraintConfigInput = this.selectedOperator.drawConfig(valuesContainer);
-            }
+            this.clearContainer(valuesContainer);
+            const userConstraintConfigInput = this.drawConfig(valuesContainer);
 
             // Attach an event listener to the select element to retrieve user input in ConstraintConfig
             const getSelectedValue = () => {
-              const selectedValue = userConstraintConfigInput();
+              const selectedValueJSON = userConstraintConfigInput();
               // Do something with the selected value, e.g., log it, pass it to another function, etc.
-              console.log(selectedValue);
+              console.log(selectedValueJSON);
             };
 
             // Add the event listener to the select element
-            valuesContainer.addEventListener('change', getSelectedValue);
+            valuesContainer.addEventListener('change', getSelectedValue); 
+        },
+        drawConfig(container){
+          var userConstraintConfigInput = null;
+            if (this.selectedConstraint.values){
+                const valuesJSON = JSON.parse(this.selectedConstraint.values);
+                userConstraintConfigInput = this.selectedOperator.drawConfig(container, valuesJSON);
+            }
+            else{
+                userConstraintConfigInput = this.selectedOperator.drawConfig(container);
+            }
+            return userConstraintConfigInput
         },
         // Function to create a new Constraint
         async createActivity() {
