@@ -1,6 +1,6 @@
 <template>
     <div>
-      <h2>Add Activity</h2>
+      <h3>Add Activity</h3>
       <form @submit.prevent="createActivity">
         <div>
           <label>Name: </label>
@@ -15,12 +15,7 @@
         </div>
 
         <!-- Show fields based on the selected type of operator -->
-        <div id="inputConfigValuesContainer"></div>
-
-        <!-- TODO Afficher un message d'erreur si la contrainte existe déjà -->
-        <p v-if="error">{{ error }}</p>
-        
-        <button type="submit">Add New Activity</button>
+        <div id="inputConfigValuesContainer"></div>      
       </form>
     </div>
   </template>
@@ -37,7 +32,6 @@
         selectedConstraint: '',
         selectedOperator: null,
         constraintsConfig: null,
-        error: '',
       };
     },
     methods: {

@@ -1,18 +1,18 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
   <constraint-form/>
-  <activity-form/>
+  <activities-form/>
 </template>
 
 <script>
 import ConstraintForm from './components/ConstraintForm.vue';
-import ActivityForm from './components/ActivityForm.vue';
+import ActivitiesForm from './components/ActivitiesForm.vue';
 
 export default {
   name: 'App',
   components: {
     ConstraintForm,
-    ActivityForm,
+    ActivitiesForm,
   }
 }
 </script>
