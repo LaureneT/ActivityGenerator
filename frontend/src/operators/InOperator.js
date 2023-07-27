@@ -54,6 +54,15 @@ export class InOperator {
 
         // Append the select element to the container
         container.appendChild(selectElement);   
+
+        // Lambda expression (arrow function) for capturing user input
+        const getUserInput = () => {
+            const selectedValue = selectElement.value;
+            return selectedValue;
+        };
+
+        // Return the lambda expression
+        return getUserInput;
     }
 }
 

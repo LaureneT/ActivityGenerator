@@ -64,13 +64,25 @@
             this.selectedOperator = GetOperatorWithSymbol(this.selectedConstraint.type);
             const valuesContainer = document.getElementById('inputConfigValuesContainer');
             this.clearContainer(valuesContainer);
+
+            var userConstraintConfigInput = null;
             if (this.selectedConstraint.values){
                 const valuesJSON = JSON.parse(this.selectedConstraint.values);
-                this.selectedOperator.drawConfig(valuesContainer, valuesJSON);
+                userConstraintConfigInput = this.selectedOperator.drawConfig(valuesContainer, valuesJSON);
             }
             else{
-                this.selectedOperator.drawConfig(valuesContainer);
+                userConstraintConfigInput = this.selectedOperator.drawConfig(valuesContainer);
             }
+
+            // Attach an event listener to the select element to retrieve user input in ConstraintConfig
+            const getSelectedValue = () => {
+              const selectedValue = userConstraintConfigInput();
+              // Do something with the selected value, e.g., log it, pass it to another function, etc.
+              console.log(selectedValue);
+            };
+
+            // Add the event listener to the select element
+            valuesContainer.addEventListener('change', getSelectedValue);
         },
         // Function to create a new Constraint
         async createActivity() {
