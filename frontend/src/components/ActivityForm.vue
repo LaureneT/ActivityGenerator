@@ -32,7 +32,6 @@
         selectedConstraint: '',
         selectedOperator: null,
         constraintsConfig: {},
-        test: 'coucou',
       };
     },
     methods: {
