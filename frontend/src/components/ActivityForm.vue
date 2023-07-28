@@ -59,7 +59,6 @@
         onConstraintDropdownChange(index){
           this.selectedConstraint = this.constraintInstances[index].selectedConstraint;
           this.selectedOperator = GetOperatorWithSymbol(this.selectedConstraint.type);
-          console.log(document.getElementById('inputConfigValuesContainer' + index));
           const valuesContainer = document.getElementById('inputConfigValuesContainer' + index);
 
           this.clearContainer(valuesContainer);
@@ -72,6 +71,9 @@
             this.constraintsConfig[this.selectedConstraint.name] = selectedValueJSON;
           };
 
+          // console.log('container ' + valuesContainer);
+          // console.log(this.constraintsConfig);
+          // console.log('selected value ' + this.constraintsConfig[0]);
           // Add the event listener to the select element
           valuesContainer.addEventListener('change', getSelectedValue); 
         },
@@ -92,6 +94,8 @@
           });
         },
         removeConstraint(index) {
+          const valuesContainer = document.getElementById('inputConfigValuesContainer' + index);
+          this.clearContainer(valuesContainer);
           this.constraintInstances.splice(index, 1);
         },
     },
