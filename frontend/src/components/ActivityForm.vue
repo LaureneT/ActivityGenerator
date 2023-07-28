@@ -31,7 +31,8 @@
         constraints: [],
         selectedConstraint: '',
         selectedOperator: null,
-        constraintsConfig: null,
+        constraintsConfig: {},
+        test: 'coucou',
       };
     },
     methods: {
@@ -64,7 +65,7 @@
             const getSelectedValue = () => {
               const selectedValueJSON = userConstraintConfigInput();
               // Do something with the selected value, e.g., log it, pass it to another function, etc.
-              console.log(selectedValueJSON);
+              this.constraintsConfig[this.selectedConstraint.name] = selectedValueJSON;
             };
 
             // Add the event listener to the select element
@@ -81,20 +82,7 @@
             }
             return userConstraintConfigInput
         },
-        // Function to create a new Constraint
-        async createActivity() {
-            try {
-                const response = await api.post('/activities', {
-                name: this.name,
-                constraints: this.constraintsConfig,
-                })
-                console.error('Activity sucessfully created.');
-                return response.data;
-            } catch (error) {
-                console.error('Error creating Constraint:', error);
-                //throw new Error('An error occurred while creating the Constraint.');
-            }
-        }
+
     },
     mounted() {
         this.fetchAllConstraints();
