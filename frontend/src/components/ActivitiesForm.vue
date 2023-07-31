@@ -1,15 +1,16 @@
 <template>
-    <div>
-      <h2>Activities</h2>
-      <form @submit.prevent="createActivity">
-        <activity-form ref="childRef"></activity-form>
-        <button type="submit">Add New Activity</button>
-      </form>
-    </div>
-  </template>
+  <div>
+    <h2>Activities</h2>
+    <form @submit.prevent="createActivity">
+      <activity-form ref="childRef" :parentActivity="activity"></activity-form>
+      <button type="submit">Add New Activity</button>
+    </form>
+  </div>
+</template>
   
-  <script>
+<script>
   import ActivityForm from './ActivityForm.vue';
+  import { Activity } from './Activity';
   import api from '@/api.js';
 
   export default {
@@ -20,13 +21,15 @@
       return {
         activityName: '',
         constraintsConfig: {},
+        activity: new Activity(),
       };
     },
     methods: {
       // Function to create a new Constraint
       async createActivity() {
-        this.constraintsConfig = this.accessConstraintConfig();
-        this.name = this.accessActivityName();
+        const activity = this.accessActivity();
+        this.name = activity.name;
+        this.constraintsConfig = activity.constraintsConfig;
 
         try {
             const response = await api.post('/activities', {
@@ -40,19 +43,15 @@
             //throw new Error('An error occurred while creating the Constraint.');
         }
       },
-      accessConstraintConfig(){
-        return this.$refs.childRef.constraintsConfig;
-      },
-      accessActivityName(){
-        return this.$refs.childRef.name;
+      accessActivity(){
+        return this.$refs.childRef.activity;
       },
     },
     mounted() {
     },
   };
-  </script>
-  
-  <style>
+</script>
+
+<style>
   /* Add any custom styles here */
-  </style>
-  
+</style>
