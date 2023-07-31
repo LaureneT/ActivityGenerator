@@ -1,108 +1,52 @@
 <template>
     <div>
       <h3>Add Activity</h3>
-      <form @submit.prevent="createActivity">
+      <form>
         <div>
           <label>Name: </label>
-        <input v-model="name" type="text" />
+        <input v-model="activity.name" type="text" />
         </div>
 
-        <button type="button" @click="addConstraint">+ Add a constraint to the activity</button>
-        <div v-for="(constraint, index) in constraintInstances" :key="index">
-          <label>Constraint: </label>
-          <select v-model="constraint.selectedConstraint" @change="onConstraintDropdownChange(index)">
-            <option v-for="option in constraints" :value="option" :key="option">{{ option.name }}</option>
-          </select>
-          <button type="button" @click="removeConstraint(index)">-</button>
-
-          <!-- Show fields based on the selected type of operator -->
-          <div :id="'inputConfigValuesContainer' + index"></div>      
-        </div>
+        <activity-constraints v-model="activity.constraintsConfig"></activity-constraints> 
       </form>
     </div>
   </template>
   
   <script>
-    import api from '@/api.js';
-    import { GetOperatorWithSymbol } from '../operators/Operators.js'; 
+    import ActivityConstraints from './ActivityConstraints.vue';
 
-  export default {
-    data() {
-      return {
-        name: '',
-        constraints: [],
-        selectedConstraint: '',
-        selectedOperator: null,
-        constraintsConfig: {},
-        constraintInstances: [],
-      };
-    },
-    methods: {
-        async fetchAllConstraints(){
-            try {
-                const response = await api.get('/constraints');
-                this.constraints = response.data;
-            } catch (error) {
-                console.error('Error fetching constraints:', error);
-                throw new Error('An error occurred while fetching constraints.');
-            }
+    export default {
+      components:{
+        ActivityConstraints,
+      },
+      props: {
+        parentActivity: {
+          type: Object,
+          required: true,
         },
-        clearContainer(container){
-          const elementsToDelete = [...container.children];
-          if (elementsToDelete){
-              elementsToDelete.forEach(element => {
-                  container.removeChild(element);
-              });
-          }
+      },
+      data() {
+        return {
+          activity: Object.assign({}, this.parentActivity), 
+        };
+      },
+      methods: {
+      },
+      watch: {
+        activity: {
+          deep: true, // Watch for changes in nested properties of this.activity
+          // eslint-disable-next-line
+          handler(newActivity, oldActivity) {
+            // This function will be called when this.activity changes
+            console.log('Activity object changed:', newActivity);
+            this.activity = Object.assign({}, newActivity);
+            // TODO change activity.constraintsConfig when mounting activity-constraints
+          },
         },
-        // eslint-disable-next-line
-        onConstraintDropdownChange(index){
-          this.selectedConstraint = this.constraintInstances[index].selectedConstraint;
-          this.selectedOperator = GetOperatorWithSymbol(this.selectedConstraint.type);
-          const valuesContainer = document.getElementById('inputConfigValuesContainer' + index);
-
-          this.clearContainer(valuesContainer);
-          const userConstraintConfigInput = this.drawConfig(valuesContainer);
-
-          // Attach an event listener to the select element to retrieve user input in ConstraintConfig
-          const getSelectedValue = () => {
-            const selectedValueJSON = userConstraintConfigInput();
-            // Do something with the selected value, e.g., log it, pass it to another function, etc.
-            this.constraintsConfig[this.selectedConstraint.name] = selectedValueJSON;
-          };
-
-          // console.log('container ' + valuesContainer);
-          // console.log(this.constraintsConfig);
-          // console.log('selected value ' + this.constraintsConfig[0]);
-          // Add the event listener to the select element
-          valuesContainer.addEventListener('change', getSelectedValue); 
-        },
-        drawConfig(container){
-          var userConstraintConfigInput = null;
-            if (this.selectedConstraint.values){
-                const valuesJSON = JSON.parse(this.selectedConstraint.values);
-                userConstraintConfigInput = this.selectedOperator.drawConfig(container, valuesJSON);
-            }
-            else{
-                userConstraintConfigInput = this.selectedOperator.drawConfig(container);
-            }
-            return userConstraintConfigInput
-        },
-        addConstraint() {
-          this.constraintInstances.push({
-            selectedConstraint: null,
-          });
-        },
-        removeConstraint(index) {
-          const valuesContainer = document.getElementById('inputConfigValuesContainer' + index);
-          this.clearContainer(valuesContainer);
-          this.constraintInstances.splice(index, 1);
-        },
-    },
-    mounted() {
-        this.fetchAllConstraints();
-    },
-  };
+      },
+      mounted() {
+      },
+    };
   </script>
   
   <style>
