@@ -7,7 +7,7 @@
         <input v-model="activity.name" type="text" />
         </div>
 
-        <activity-constraints :parentConstraintsConfig="activity.constraintsConfig"></activity-constraints> 
+        <activity-constraints :parentConstraintsConfigs="activity.constraintsConfigs"></activity-constraints> 
       </form>
     </div>
   </template>

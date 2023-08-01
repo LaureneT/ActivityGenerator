@@ -19,17 +19,20 @@
   <script>
     import api from '@/api.js';
     import { GetOperatorWithSymbol } from '../operators/Operators.js'; 
+     // eslint-disable-next-line
+    import { ConstraintConfig } from "./ConstraintConfig";
 
   export default {
     props: {
-        parentConstraintsConfig: {
-          type: JSON.Object,
+        parentConstraintsConfigs: {
+          type: Array,
           required: true,
         },
       },
     data() {
       return {
-        constraintsConfig: this.parentConstraintsConfig == null ? [] : Object.keys(this.parentConstraintsConfig).map((key) => this.parentConstraintsConfig[key]),
+        // constraintsConfig is a list of ConstraintConfig object
+        constraintsConfig: this.parentConstraintsConfigs == null ? [] : this.parentConstraintsConfigs, //Object.keys(this.parentConstraintsConfig).map((key) => this.parentConstraintsConfig[key]),
         name: '',
         constraintsDropdownOptions: [],
         //activityConstraints: [],
@@ -47,22 +50,25 @@
           }
       }, 
       drawExistingConstraintsConfig(){
-        console.log('Drawing existing constraints config TODO'); // TODO
-        this.constraintsConfig.forEach(constraintConfig => {
-          console.log(constraintConfig);
+        this.constraintsConfig.forEach((constraintConfig, index) => {
+          const selectedConstraint = constraintConfig.selectedConstraint;
+          const selectedOperator = GetOperatorWithSymbol(selectedConstraint.type);
+          const valuesContainer = document.getElementById('inputConfigValuesContainer' + index);
+          this.drawAndsetConfig(valuesContainer, selectedConstraint, selectedOperator, constraintConfig.constraintConfig);
         })
       },
       addConstraintConfig() {
         this.constraintsConfig.push({
+          constraintName : '',
+          constraintConfig : {},
           selectedConstraint: null,
         });
       },
       removeConstraint(index) {
-        //const valuesContainer = document.getElementById('inputConfigValuesContainer' + index);
+        const valuesContainer = document.getElementById('inputConfigValuesContainer' + index);
+        this.clearContainer(valuesContainer);
         this.constraintsConfig.splice(index, 1);
-        if (index <= this.constraintsConfig.length-1){
-          this.onConstraintDropdownChange(index);
-        }
+        this.drawExistingConstraintsConfig()
       },
       clearContainer(container){
         if (container) {
@@ -97,6 +103,7 @@
         const selectedConstraint = this.constraintsConfig[index].selectedConstraint;
         const selectedOperator = GetOperatorWithSymbol(selectedConstraint.type);
         const valuesContainer = document.getElementById('inputConfigValuesContainer' + index); 
+        this.constraintsConfig[index].constraintName = selectedConstraint.name;
 
         this.clearContainer(valuesContainer);
         const userConstraintConfigInput = this.drawConfig(valuesContainer, selectedConstraint, selectedOperator);
@@ -105,7 +112,7 @@
         const getSelectedValue = () => {
           const selectedValueJSON = userConstraintConfigInput();
           // Do something with the selected value, e.g., log it, pass it to another function, etc.
-          this.constraintsConfig[selectedConstraint.name] = selectedValueJSON;
+          this.constraintsConfig[index].constraintConfig = selectedValueJSON;
         };
 
         // Add the event listener to the select element
@@ -119,6 +126,17 @@
           }
           else{
               userConstraintConfigInput = operator.drawConfig(container);
+          }
+          return userConstraintConfigInput
+      },
+      drawAndsetConfig(container, constraint, operator, constraintConfig){
+        var userConstraintConfigInput = null;
+          if (constraint.values){
+              const valuesJSON = JSON.parse(constraint.values);
+              userConstraintConfigInput = operator.drawAndsetConfig(container, valuesJSON, constraintConfig);
+          }
+          else{
+              userConstraintConfigInput = operator.drawAndsetConfig(container, constraintConfig);
           }
           return userConstraintConfigInput
       },
