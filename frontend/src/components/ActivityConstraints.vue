@@ -9,7 +9,6 @@
             <option v-for="option in constraintsDropdownOptions" :value="option" :key="option">{{ option.name }}</option>
           </select>
           <button type="button" @click="removeConstraint(index)">-</button>
-
           <!-- Show fields based on the selected type of operator -->
           <div :id="'inputConfigValuesContainer' + index"></div>      
         </div>
@@ -47,23 +46,37 @@
               throw new Error('An error occurred while fetching constraints.');
           }
       }, 
+      drawExistingConstraintsConfig(){
+        console.log('Drawing existing constraints config TODO'); // TODO
+        this.constraintsConfig.forEach(constraintConfig => {
+          console.log(constraintConfig);
+        })
+      },
       addConstraintConfig() {
         this.constraintsConfig.push({
-          selectedConstraint: null, // init la selectedConstraint lors de la creation. Obsolete ?
+          selectedConstraint: null,
         });
       },
       removeConstraint(index) {
-        const valuesContainer = document.getElementById('inputConfigValuesContainer' + index);
-        this.clearContainer(valuesContainer);
+        //const valuesContainer = document.getElementById('inputConfigValuesContainer' + index);
         this.constraintsConfig.splice(index, 1);
+        if (index <= this.constraintsConfig.length-1){
+          this.onConstraintDropdownChange(index);
+        }
       },
       clearContainer(container){
-        const elementsToDelete = [...container.children];
-        if (elementsToDelete){
-            elementsToDelete.forEach(element => {
-                container.removeChild(element);
-            });
+        if (container) {
+          while (container.firstChild) {
+            container.removeChild(container.firstChild);
+          }
         }
+        // const elementsToDelete = [...container.children];
+        // if (elementsToDelete){
+        //   elementsToDelete.forEach(element => {
+        //       console.log(element);
+        //       container.removeChild(element);
+        //   });
+        // }
       },
       getConstraintsConfig() {
         this.constraintsConfig.forEach((constraint, index) => {
@@ -80,23 +93,23 @@
       },
       // eslint-disable-next-line
       onConstraintDropdownChange(index){
-        this.getConstraintsConfig();
-        // const selectedConstraint = this.activityConstraints[index].selectedConstraint;
-        // const selectedOperator = GetOperatorWithSymbol(selectedConstraint.type);
-        // const valuesContainer = document.getElementById('inputConfigValuesContainer' + index);
+        //this.getConstraintsConfig();
+        const selectedConstraint = this.constraintsConfig[index].selectedConstraint;
+        const selectedOperator = GetOperatorWithSymbol(selectedConstraint.type);
+        const valuesContainer = document.getElementById('inputConfigValuesContainer' + index); 
 
-        // this.clearContainer(valuesContainer);
-        // const userConstraintConfigInput = this.drawConfig(valuesContainer, selectedConstraint, selectedOperator);
+        this.clearContainer(valuesContainer);
+        const userConstraintConfigInput = this.drawConfig(valuesContainer, selectedConstraint, selectedOperator);
 
-        // // Attach an event listener to the select element to retrieve user input in ConstraintConfig
-        // const getSelectedValue = () => {
-        //   const selectedValueJSON = userConstraintConfigInput();
-        //   // Do something with the selected value, e.g., log it, pass it to another function, etc.
-        //   this.constraintsConfig[selectedConstraint.name] = selectedValueJSON;
-        // };
+        // Attach an event listener to the select element to retrieve user input in ConstraintConfig
+        const getSelectedValue = () => {
+          const selectedValueJSON = userConstraintConfigInput();
+          // Do something with the selected value, e.g., log it, pass it to another function, etc.
+          this.constraintsConfig[selectedConstraint.name] = selectedValueJSON;
+        };
 
-        // // Add the event listener to the select element
-        // valuesContainer.addEventListener('change', getSelectedValue); 
+        // Add the event listener to the select element
+        valuesContainer.addEventListener('change', getSelectedValue); 
       },
       drawConfig(container, constraint, operator){
         var userConstraintConfigInput = null;
@@ -112,6 +125,7 @@
     },
     mounted() {
       this.fetchAllConstraints();
+      this.drawExistingConstraintsConfig();
     },
   };
   </script>
