@@ -46,7 +46,16 @@ export default {
         const valuesContainer = document.getElementById(this.uniqueId); 
         const constraint = this.GetConstraintWithName();
         const operator = GetOperatorWithSymbol(constraint.type);
-        this.drawConfig(valuesContainer, constraint, operator, this.config.configData[this.selectedConstraint]);
+        const userConstraintConfigInput = this.drawConfig(valuesContainer, constraint, operator, this.config.configData[this.selectedConstraint]);
+
+        // Attach an event listener to the select element to retrieve user input in ConstraintConfig
+        const getSelectedValue = () => {
+          const selectedValueJSON = userConstraintConfigInput();
+          this.modifiedConfig.configData = selectedValueJSON;
+          this.EmitModifiedConfig();
+        };
+        // Add the event listener to the select element
+        valuesContainer.addEventListener('change', getSelectedValue); 
       }
     },
     ConstraintDropdownChanged(eventData)
@@ -55,6 +64,7 @@ export default {
       
       // change this.config name 
       this.modifiedConfig.constraintName = selectedConstraint.name;
+
       // draw config
       const valuesContainer = document.getElementById(this.uniqueId); 
       const selectedOperator = GetOperatorWithSymbol(selectedConstraint.type);
@@ -63,21 +73,18 @@ export default {
       // Attach an event listener to the select element to retrieve user input in ConstraintConfig
       const getSelectedValue = () => {
         const selectedValueJSON = userConstraintConfigInput();
-        // Do something with the selected value, e.g., log it, pass it to another function, etc.
-        //this.constraintsConfig[index].constraintConfig = selectedValueJSON;
-        console.log(selectedValueJSON);
+        this.modifiedConfig.configData = selectedValueJSON;
+        this.EmitModifiedConfig();
       };
       // Add the event listener to the select element
       valuesContainer.addEventListener('change', getSelectedValue); 
-
-      // change this.config data 
- 
-      this.EmitModifiedConfig();
     },
     EmitModifiedConfig(){
       this.$emit('config-updated', this.modifiedConfig);
     },
     drawConfig(container, constraint, operator, configData){
+      this.clearContainer(container);
+
       var userConstraintConfigInput = null;
       if (constraint.values){
         const valuesJSON = JSON.parse(constraint.values);
@@ -91,9 +98,13 @@ export default {
     GetConstraintWithName(){
       return this.constraintsDropdownOptions.find((c) => c.name == this.config.constraintName);
     },
-  },
-  mounted() {
- 
+    clearContainer(container){
+      if (container) {
+        while (container.firstChild) {
+          container.removeChild(container.firstChild);
+        }
+      }
+    },
   },
 };
 </script>
