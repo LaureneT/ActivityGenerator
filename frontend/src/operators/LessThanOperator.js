@@ -14,32 +14,7 @@ export class LessThanOperator {
         console.log('drawing setup for op <=');
     }
 
-    // eslint-disable-next-line
-    drawConfig(container){
-        // Create the label element
-        const labelElement = document.createElement('label');
-        labelElement.textContent = 'Value: ';
-    
-        // Create the input element
-        const inputElement = document.createElement('input');
-        inputElement.type = 'text';
-        inputElement.name = 'valueInput'; 
-      
-        // Append the input element to the form
-        container.appendChild(labelElement);
-        container.appendChild(inputElement);
-
-        // Lambda expression (arrow function) for capturing user input
-        const getUserInput = () => {
-            const inputValue = inputElement.value;
-            return JSON.stringify(inputValue);
-        };
-
-        // Return the lambda expression
-        return getUserInput;
-    }
-
-    drawAndsetConfig(container, constraintConfig){
+    drawAndsetConfig(container, constraintConfig=''){
         // Create the label element
         const labelElement = document.createElement('label');
         labelElement.textContent = 'Value: ';
@@ -54,7 +29,7 @@ export class LessThanOperator {
         container.appendChild(inputElement);
 
         // Set the value of the input element if constraintConfig is provided
-        if (constraintConfig) {
+        if (constraintConfig && constraintConfig != '') {
           const configObject = JSON.parse(constraintConfig);
           if (configObject) {
             inputElement.value = configObject;
