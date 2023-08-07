@@ -26,10 +26,15 @@ export default {
   methods: {
     ConstraintDropdownChanged(eventData)
     {
-      const constraint = this.constraintsDropdownOptions.find((e) => e.name == eventData.target.value);
-      // change this.config name and config data to update the element
-      this.modifiedConfig.constraintName = constraint.name;
-      // Emit an event to send the modifiedConfig to the parent
+      const selectedConstraint = this.constraintsDropdownOptions.find((e) => e.name == eventData.target.value);
+      
+      // change this.config name 
+      this.modifiedConfig.constraintName = selectedConstraint.name;
+      // change this.config data 
+      
+      this.EmitModifiedConfig();
+    },
+    EmitModifiedConfig(){
       this.$emit('config-updated', this.modifiedConfig);
     },
   },
