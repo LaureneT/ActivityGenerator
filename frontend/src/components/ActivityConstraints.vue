@@ -30,7 +30,7 @@
     //   },
     data() {
       return {
-        configs: [new ConstraintConfig('Energy', {'Energy':'5'}), new ConstraintConfig()],
+        configs: [new ConstraintConfig('Energy', {'Energy':'7'}), new ConstraintConfig()], //'Location', {'Location':'Outside'})],
         constraintsDropdownOptions: [],
       };
     },
@@ -46,11 +46,11 @@
         }
       }, 
       addConstraintConfig(){
-        console.log('Adding 1 element to configs. Configs: ' + this.configs[0].constraintName);
+        this.configs.push(new ConstraintConfig());
       },
       updateParentConfig(updatedConfig) {
         console.log(updatedConfig);
-        console.log(updatedConfig.constraintName);
+        //console.log(updatedConfig.constraintName);
 
         //console.log(updatedConfig.constraintName);
         //console.log(index);
