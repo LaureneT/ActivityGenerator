@@ -2,7 +2,7 @@
   <div>
     <form>
       <label>Constraint: </label>
-      <select @change="ConstraintDropdownChanged" v-model="selectedConstraint">
+      <select @change="constraintDropdownChanged" v-model="selectedConstraint">
         <option v-for="option in constraintsDropdownOptions" :value="option.name" :key="option.name">{{ option.name }}</option>
       </select>
       <div :id="uniqueId"></div>  
@@ -30,18 +30,18 @@ export default {
       immediate: true, // Trigger the watcher immediately when the component is mounted
       handler(newVal) {
         if (newVal.length > 0){
-          this.DrawExistingData();
+          this.drawExistingData();
         }
       },
     },
   },
   methods: {
-    DrawExistingData(){
+    drawExistingData(){
       if (this.config.constraintName != ""){
         this.selectedConstraint = this.config.constraintName;
 
         const valuesContainer = document.getElementById(this.uniqueId); 
-        const constraint = this.GetConstraintWithName();
+        const constraint = this.getConstraintWithName();
         const operator = GetOperatorWithSymbol(constraint.type);
         const userConstraintConfigInput = this.drawConfig(valuesContainer, constraint, operator, this.config.configData[this.selectedConstraint]);
 
@@ -49,13 +49,13 @@ export default {
         const getSelectedValue = () => {
           const selectedValueJSON = userConstraintConfigInput();
           this.modifiedConfig.configData = selectedValueJSON;
-          this.EmitModifiedConfig();
+          this.emitModifiedConfig();
         };
         // Add the event listener to the select element
         valuesContainer.addEventListener('change', getSelectedValue); 
       }
     },
-    ConstraintDropdownChanged(eventData)
+    constraintDropdownChanged(eventData)
     {
       const selectedConstraint = this.constraintsDropdownOptions.find((e) => e.name == eventData.target.value);
       
@@ -71,12 +71,12 @@ export default {
       const getSelectedValue = () => {
         const selectedValueJSON = userConstraintConfigInput();
         this.modifiedConfig.configData = selectedValueJSON;
-        this.EmitModifiedConfig();
+        this.emitModifiedConfig();
       };
       // Add the event listener to the select element
       valuesContainer.addEventListener('change', getSelectedValue); 
     },
-    EmitModifiedConfig(){
+    emitModifiedConfig(){
       console.log(this.modifiedConfig);
       this.$emit('config-updated', this.modifiedConfig);
     },
@@ -93,7 +93,7 @@ export default {
       }
       return userConstraintConfigInput
     },
-    GetConstraintWithName(){
+    getConstraintWithName(){
       return this.constraintsDropdownOptions.find((c) => c.name == this.config.constraintName);
     },
     clearContainer(container){
