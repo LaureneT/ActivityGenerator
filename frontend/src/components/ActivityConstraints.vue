@@ -53,6 +53,7 @@
         this.EmitModifiedConfig();
       },
       EmitModifiedConfig(){
+        //console.log(this.modifiedConfigs);
         this.$emit('configs-updated', this.modifiedConfigs);
       },
       removeConstraint(index){

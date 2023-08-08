@@ -43,7 +43,7 @@ export default {
         const valuesContainer = document.getElementById(this.uniqueId); 
         const constraint = this.getConstraintWithName();
         const operator = GetOperatorWithSymbol(constraint.type);
-        const userConstraintConfigInput = this.drawConfig(valuesContainer, constraint, operator, this.config.configData[this.selectedConstraint]);
+        const userConstraintConfigInput = this.drawConfig(valuesContainer, constraint, operator, this.config.configData);
 
         // Attach an event listener to the select element to retrieve user input in ConstraintConfig
         const getSelectedValue = () => {
@@ -77,7 +77,7 @@ export default {
       valuesContainer.addEventListener('change', getSelectedValue); 
     },
     emitModifiedConfig(){
-      console.log(this.modifiedConfig);
+      //console.log(this.modifiedConfig);
       this.$emit('config-updated', this.modifiedConfig);
     },
     drawConfig(container, constraint, operator, configData){
@@ -91,7 +91,7 @@ export default {
       else{
         userConstraintConfigInput = operator.drawAndsetConfig(container, configData);
       }
-      return userConstraintConfigInput
+      return userConstraintConfigInput;
     },
     getConstraintWithName(){
       return this.constraintsDropdownOptions.find((c) => c.name == this.config.constraintName);

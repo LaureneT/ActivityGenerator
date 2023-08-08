@@ -21,22 +21,26 @@
     },
     data() {
       return {
-        activity: new Activity('testActivity', [new ConstraintConfig('Energy', {'Energy':'7'}), new ConstraintConfig('Location', {'Location':'Outside'})]),
+        activity: new Activity('testActivity', [new ConstraintConfig('Energy', '7'), new ConstraintConfig('Location', 'Outside')]),
       };
     },
     methods: {
       // Function to create a new Constraint
       async createActivity() {
         const activity = this.accessActivity();
-        //this.name = activity.name;
-        //this.constraintsConfig = activity.constraintConfigs;
+        console.log(activity.name);
+        // format constraintConfigs before sending to DB
+        const formattedConfigs = this.formatConstraintConfig(activity.constraintConfigs);
+        console.log(formattedConfigs);
+        console.log(JSON.stringify(formattedConfigs));
 
         try {
             const response = await api.post('/activities', {
             name: activity.name,
-            constraints: JSON.stringify(activity.constraintConfigs),
+            //constraints: JSON.stringify(activity.constraintConfigs),
+            constraints: JSON.stringify(formattedConfigs),
             })
-            console.log('Activity sucessfully created.');
+            console.log('Activity successfully created.');
             return response.data;
         } catch (error) {
             console.error('Error creating Constraint:', error);
@@ -44,8 +48,16 @@
         }
       },
       accessActivity(){
-        console.log(this.$refs.childRef.activity);
+        //console.log(this.$refs.childRef.activity);
         return this.$refs.childRef.activity;
+      },
+      formatConstraintConfig(constraintConfigs){
+        const formattedConfigs = constraintConfigs.map(config => {
+          const { constraintName, configData } = config;
+          const formattedConfig = { [constraintName]: configData };
+          return formattedConfig;
+        });
+        return formattedConfigs;
       },
     },
     mounted() {

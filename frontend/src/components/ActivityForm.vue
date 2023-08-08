@@ -47,7 +47,7 @@
         // automatically update this.constraintsConfigs
         //console.log('Updating configs in ActivityForm');
         this.activity.constraintConfigs = updatedConfigs;
-        //console.log(this.activity);
+        console.log(this.activity);
       },
     },
     mounted() {
