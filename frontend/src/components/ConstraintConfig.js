@@ -1,6 +1,6 @@
 export class ConstraintConfig{
-  constructor() {
-    this.constraintName = '';
-    this.constraintConfig = {};
+  constructor(constraintName = '', configData = {}) {
+    this.constraintName = constraintName;
+    this.configData = configData;
  }
 }

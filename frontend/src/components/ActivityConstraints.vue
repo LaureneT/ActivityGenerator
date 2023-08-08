@@ -4,7 +4,7 @@
       <form>
         <button type="button" @click="addConstraintConfig">+ Add a constraint to the activity</button>
         <div v-for="(config, index) in configs" :key="index">
-            <activity-constraint :config=config @config-updated="updateParentConfig" :constraintsDropdownOptions="constraintsDropdownOptions" ></activity-constraint>
+            <activity-constraint :config=config @config-updated="updateConfig" :constraintsDropdownOptions="constraintsDropdownOptions" ></activity-constraint>
           <!-- <button type="button" @click="removeConstraint(index)">-</button> -->
           <!-- Show fields based on the selected type of operator -->
           <!-- <div :id="'inputConfigValuesContainer' + index"></div>       -->
@@ -14,7 +14,6 @@
   </template>
   
   <script>
-  import { ConstraintConfig } from "./ConstraintConfig";
   import ActivityConstraint from "./ActivityConstraint.vue";
   import api from '@/api.js';
 
@@ -22,16 +21,13 @@
     components:{
         ActivityConstraint,
     },
-    // props: {
-    //     parentConstraintsConfigs: {
-    //       type: Array,
-    //       required: true,
-    //     },
-    //   },
+    props: {
+        configs: { required: true },
+      },
     data() {
       return {
-        configs: [new ConstraintConfig('Energy', {'Energy':'7'}), new ConstraintConfig()], //'Location', {'Location':'Outside'})],
         constraintsDropdownOptions: [],
+        modifiedConfigs: this.configs,
       };
     },
     methods: {
@@ -46,17 +42,19 @@
         }
       }, 
       addConstraintConfig(){
-        this.configs.push(new ConstraintConfig());
+        //this.configs.push(new ConstraintConfig());
       },
-      updateParentConfig(updatedConfig) {
-        console.log(updatedConfig);
-        //console.log(updatedConfig.constraintName);
+      // eslint-disable-next-line
+      updateConfig(updatedConfig) {
+        // this.modifiedConfigs is automatically modified with updatedConfig
 
-        //console.log(updatedConfig.constraintName);
-        //console.log(index);
-        // Update the parentConfig with the modified data received from the child
-        //this.configs[index] = updatedConfig;
+        // check if all configs has name and configdata
+        // create new activity with the configs
+        this.EmitModifiedConfig();
       },
+      EmitModifiedConfig(){
+        this.$emit('configs-updated', this.modifiedConfigs);
+    },
     },
     mounted() {
       this.fetchAllConstraints();

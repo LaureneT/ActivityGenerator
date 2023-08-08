@@ -11,13 +11,12 @@
 </template>
   
 <script>
-//import { ConstraintConfig } from "./ConstraintConfig";
 import { GetOperatorWithSymbol } from '../operators/Operators.js'; 
 
 export default {
   props:{
-    config:{required:true},
-    constraintsDropdownOptions:{required:true},
+    config: { required:true },
+    constraintsDropdownOptions: { required:true },
   },
   data() {
     return {
@@ -30,8 +29,6 @@ export default {
     constraintsDropdownOptions: {
       immediate: true, // Trigger the watcher immediately when the component is mounted
       handler(newVal) {
-        // Perform the action you want here
-        //this.doSomethingWithProp(newVal);
         if (newVal.length > 0){
           this.DrawExistingData();
         }
@@ -80,6 +77,7 @@ export default {
       valuesContainer.addEventListener('change', getSelectedValue); 
     },
     EmitModifiedConfig(){
+      console.log(this.modifiedConfig);
       this.$emit('config-updated', this.modifiedConfig);
     },
     drawConfig(container, constraint, operator, configData){

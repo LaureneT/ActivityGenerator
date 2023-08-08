@@ -2,7 +2,7 @@
   <div>
     <h2>Activities</h2>
     <form @submit.prevent="createActivity">
-      <activity-form ref="childRef" :parentActivity="activity"></activity-form>
+      <activity-form ref="childRef" :parentActivityJSON="JSON.stringify(activity)"></activity-form>
       <button type="submit">Add New Activity</button>
     </form>
   </div>
@@ -10,8 +10,10 @@
   
 <script>
   import ActivityForm from './ActivityForm.vue';
-  import { Activity } from './Activity';
+  import { Activity } from './Activity.js';
   import api from '@/api.js';
+  import { ConstraintConfig } from "./ConstraintConfig";
+
 
   export default {
     components:{
@@ -19,9 +21,7 @@
     },
     data() {
       return {
-        activityName: '',
-        constraintsConfig: {},
-        activity: new Activity(),
+        activity: new Activity('testActivity', [new ConstraintConfig('Energy', {'Energy':'10'}), new ConstraintConfig('', {})]),
       };
     },
     methods: {
@@ -34,7 +34,7 @@
         try {
             const response = await api.post('/activities', {
             name: this.name,
-            constraints: JSON.stringify(this.constraintsConfig),
+            constraints: JSON.stringify(this.constraintsConfigs),
             })
             console.log('Activity sucessfully created.');
             return response.data;
