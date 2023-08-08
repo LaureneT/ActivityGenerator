@@ -21,23 +21,34 @@
       ActivityConstraints,
     },
     props: {
-      parentActivityJSON: { required: true },
+      currentActivityJSON: { required: true },
     },
     data() {
       return {
         activity: new Activity(),
-        constraintsConfigs: JSON.parse(this.parentActivityJSON).constraintConfigs,
+        constraintsConfigs: JSON.parse(this.currentActivityJSON).constraintConfigs,
       };
     },
+    watch: {
+      parentActivityJSON: {
+        immediate: true, // Trigger the watcher immediately when the component is mounted
+        // eslint-disable-next-line
+        handler(newVal) {
+          this.drawExistingData();
+        },
+      },
+    },
     methods: {
+      drawExistingData(){
+        this.activity.name = JSON.parse(this.currentActivityJSON).name;
+        this.activity.constraintConfigs = this.constraintsConfigs;
+      },
       updateConfigs(updatedConfigs){
         // automatically update this.constraintsConfigs
-        console.log('Updating configs in ActivityForm');
+        //console.log('Updating configs in ActivityForm');
         this.activity.constraintConfigs = updatedConfigs;
-        console.log(this.activity);
-
+        //console.log(this.activity);
       },
-
     },
     mounted() {
 
