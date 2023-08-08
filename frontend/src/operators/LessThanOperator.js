@@ -38,8 +38,8 @@ export class LessThanOperator {
 
         // Lambda expression (arrow function) for capturing user input
         const getUserInput = () => {
-            const inputValue = inputElement.value;
-            return JSON.stringify(inputValue);
+            const inputValue = parseFloat(inputElement.value);
+            return inputValue;
         };
 
         // Return the lambda expression

@@ -77,6 +77,7 @@ export default {
       valuesContainer.addEventListener('change', getSelectedValue); 
     },
     emitModifiedConfig(){
+      console.log(this.modifiedConfig);
       this.$emit('config-updated', this.modifiedConfig);
     },
     drawConfig(container, constraint, operator, configData){

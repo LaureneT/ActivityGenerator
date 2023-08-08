@@ -30,7 +30,7 @@
         const activity = this.accessActivity();
         // format constraintConfigs before sending to DB
         const formattedConfigs = this.formatConstraintConfig(activity.constraintConfigs);
-
+        console.log(formattedConfigs);
         try {
             const response = await api.post('/activities', {
             name: activity.name,
@@ -47,12 +47,15 @@
         return this.$refs.childRef.activity;
       },
       formatConstraintConfig(constraintConfigs){
-        const formattedConfigs = constraintConfigs.map(config => {
-          const { constraintName, configData } = config;
-          const formattedConfig = { [constraintName]: configData };
-          return formattedConfig;
-        });
-        return formattedConfigs;
+        var result = {};
+        console.log(constraintConfigs);
+        for (const i in constraintConfigs)
+        {
+          const config = constraintConfigs[i];
+          console.log(config);
+          result[config.constraintName] = config.configData;
+        }
+        return result;
       },
     },
     mounted() {

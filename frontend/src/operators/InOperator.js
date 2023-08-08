@@ -69,7 +69,7 @@ export class InOperator {
         // Lambda expression (arrow function) for capturing user input
         const getUserInput = () => {
             const selectedValue = selectElement.value;
-            return JSON.stringify(selectedValue);
+            return selectedValue;
         };
 
         // Return the lambda expression
