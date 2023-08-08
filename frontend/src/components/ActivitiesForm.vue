@@ -28,16 +28,12 @@
       // Function to create a new Constraint
       async createActivity() {
         const activity = this.accessActivity();
-        console.log(activity.name);
         // format constraintConfigs before sending to DB
         const formattedConfigs = this.formatConstraintConfig(activity.constraintConfigs);
-        console.log(formattedConfigs);
-        console.log(JSON.stringify(formattedConfigs));
 
         try {
             const response = await api.post('/activities', {
             name: activity.name,
-            //constraints: JSON.stringify(activity.constraintConfigs),
             constraints: JSON.stringify(formattedConfigs),
             })
             console.log('Activity successfully created.');
@@ -48,7 +44,6 @@
         }
       },
       accessActivity(){
-        //console.log(this.$refs.childRef.activity);
         return this.$refs.childRef.activity;
       },
       formatConstraintConfig(constraintConfigs){
