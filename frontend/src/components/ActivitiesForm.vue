@@ -2,7 +2,7 @@
   <div>
     <h2>Activities</h2>
     <form @submit.prevent="createActivity">
-      <activity-form ref="childRef" :parentActivityJSON="JSON.stringify(activity)"></activity-form>
+      <activity-form ref="childRef" :currentActivityJSON="JSON.stringify(activity)"></activity-form>
       <button type="submit">Add New Activity</button>
     </form>
   </div>
@@ -21,20 +21,20 @@
     },
     data() {
       return {
-        activity: new Activity('testActivity', [new ConstraintConfig('Energy', {'Energy':'10'}), new ConstraintConfig('', {})]),
+        activity: new Activity('testActivity', [new ConstraintConfig('Energy', {'Energy':'7'}), new ConstraintConfig('Location', {'Location':'Outside'})]),
       };
     },
     methods: {
       // Function to create a new Constraint
       async createActivity() {
         const activity = this.accessActivity();
-        this.name = activity.name;
-        this.constraintsConfig = activity.constraintsConfig;
+        //this.name = activity.name;
+        //this.constraintsConfig = activity.constraintConfigs;
 
         try {
             const response = await api.post('/activities', {
-            name: this.name,
-            constraints: JSON.stringify(this.constraintsConfigs),
+            name: activity.name,
+            constraints: JSON.stringify(activity.constraintConfigs),
             })
             console.log('Activity sucessfully created.');
             return response.data;
@@ -44,6 +44,7 @@
         }
       },
       accessActivity(){
+        console.log(this.$refs.childRef.activity);
         return this.$refs.childRef.activity;
       },
     },
