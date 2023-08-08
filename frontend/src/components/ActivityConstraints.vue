@@ -4,10 +4,8 @@
       <form>
         <button type="button" @click="addConstraintConfig">+ Add a constraint to the activity</button>
         <div v-for="(config, index) in configs" :key="index">
-            <activity-constraint :config=config @config-updated="updateConfig" :constraintsDropdownOptions="constraintsDropdownOptions" ></activity-constraint>
-          <!-- <button type="button" @click="removeConstraint(index)">-</button> -->
-          <!-- Show fields based on the selected type of operator -->
-          <!-- <div :id="'inputConfigValuesContainer' + index"></div>       -->
+          <activity-constraint :config=config @config-updated="updateConfig" :constraintsDropdownOptions="constraintsDropdownOptions" ></activity-constraint>
+          <button type="button" @click="removeConstraint(index)">-</button>
         </div>
       </form>
     </div>
@@ -16,6 +14,8 @@
   <script>
   import ActivityConstraint from "./ActivityConstraint.vue";
   import api from '@/api.js';
+  import { ConstraintConfig } from "./ConstraintConfig";
+
 
   export default {
     components:{
@@ -42,7 +42,7 @@
         }
       }, 
       addConstraintConfig(){
-        //this.configs.push(new ConstraintConfig());
+        this.modifiedConfigs.push(new ConstraintConfig());
       },
       // eslint-disable-next-line
       updateConfig(updatedConfig) {
@@ -54,7 +54,11 @@
       },
       EmitModifiedConfig(){
         this.$emit('configs-updated', this.modifiedConfigs);
-    },
+      },
+      removeConstraint(index){
+        this.modifiedConfigs.splice(index, 1);
+        this.EmitModifiedConfig();
+      },
     },
     mounted() {
       this.fetchAllConstraints();
