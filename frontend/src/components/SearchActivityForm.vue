@@ -74,27 +74,33 @@
           this.inputConfigs.splice(index, 1);
         },
         search(){
-          console.log('searching...');
-          
-          // validate input : needs to be complete
-          if(!this.validateInput()){
-              console.log('Input not validated');
-          }
-          console.log(this.inputConfigs);
+          var randomActivity = null;
 
-          // getValidActivities
-          const validActivities = this.getValidActivities();
+          // valide activities is not null
+          if(this.activities.length > 0){
+            // validate input : needs to be complete
+            if(this.validateInput()){
+              console.log(this.inputConfigs);
 
-          // return random constraint // check if validActivities not null
-          const randomActivity = this.getRandomActivity(validActivities);
-          return randomActivity;
+              // getValidActivities
+              const validActivities = this.getValidActivities();
+
+              // return random constraint
+              randomActivity = validActivities.length > 0 ? this.getRandomActivity(validActivities):null;
+
+            } else{ console.log('Input is not valid') }
+
+          } else{ console.log('No activities in db') }
+
+          console.log(randomActivity);
+          return randomActivity;   
         },
         validateInput(){
-            console.log('validating input...');
+            console.log('TODO validating input...');
             return true
         },
         getValidActivities(){
-            console.log('getvalide activities...');
+            console.log('TODO getvalide activities...');
             return [];
         },
         getRandomActivity(activities){
