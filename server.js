@@ -87,6 +87,18 @@ app.post('/activities', async (req, res) => {
   }
 });
 
+// Route to get all Activities
+app.get('/activities', async (req, res) => {
+  try {
+    // Query all activities from the database using Prisma
+    const allActivities = await prisma.activity.findMany();
+    res.json(allActivities);
+  } catch (error) {
+    console.error('Error fetching activities:', error);
+    res.status(500).json({ error: 'An error occurred while fetching activities.' });
+  }
+});
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);

@@ -37,6 +37,7 @@
         return {
           constraintsDropdownOptions: [],
           inputConfigs: [],
+          activities: [],
         };
       },
       methods: {
@@ -48,6 +49,15 @@
           } catch (error) {
             console.error('Error fetching constraints:', error);
             throw new Error('An error occurred while fetching constraints.');
+          }
+        }, 
+        async fetchAllActivities(){
+          try {
+            const response = await api.get('/activities');
+            this.activities = response.data;
+          } catch (error) {
+            console.error('Error fetching activities:', error);
+            throw new Error('An error occurred while fetching activities.');
           }
         }, 
         addConstraintConfig(){
@@ -95,6 +105,7 @@
       },
       mounted() {
         this.fetchAllConstraints();
+        this.fetchAllActivities();
       },
     };
     </script>
