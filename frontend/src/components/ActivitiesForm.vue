@@ -22,8 +22,8 @@
     },
     data() {
       return {
-        //activity: new Activity('', []),
-        activity: new Activity('testActivity', [new ConstraintConfig('Energy', '7'), new ConstraintConfig('Location', 'Outside')]),
+        activity: new Activity('', []),
+        //activity: new Activity('testActivity', [new ConstraintConfig('Energy', '7'), new ConstraintConfig('Location', 'Outside')]),
       };
     },
     methods: {
