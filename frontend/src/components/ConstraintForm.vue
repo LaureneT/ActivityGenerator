@@ -1,26 +1,31 @@
 <template>
-  <div>
-    <h2>Add Constraint</h2>
-    <form @submit.prevent="createConstraint">
-      <div>
-        <label>Name: </label>
-      <input v-model="name" type="text" />
+  <div class="add-constraint">
+    <h2 class="section-title">Add Constraint</h2>
+    <form @submit.prevent="createConstraint" class="constraint-form">
+      <div class="form-group">
+        <label class="form-label">Name:</label>
+        <input class="form-input" v-model="name" type="text" />
       </div>
 
-      <div>
-        <label>Type: </label>
-        <select id="operatorDropdown" @change="onOperatorDropdownChange" v-model="selectedType">
+      <div class="form-group">
+        <label class="form-label">Type:</label>
+        <select
+          class="form-dropdown"
+          id="operatorDropdown"
+          @change="onOperatorDropdownChange"
+          v-model="selectedType"
+        >
           <option v-for="option in operatorTypes" :value="option" :key="option">{{ option }}</option>
         </select>
       </div>
 
       <!-- Show fields based on the selected type of operator -->
-      <div id="inputSetupValuesContainer"></div>
+       <div id="inputSetupValuesContainer" class="input-container"></div>
 
       <!-- TODO Afficher un message d'erreur si la contrainte existe déjà -->
-      <p v-if="error">{{ error }}</p>
+      <p v-if="error" class="error-message">{{ error }}</p>
       
-      <button type="submit">Add New Constraint</button>
+      <button class="submit-button" type="submit">Add New Constraint</button>
     </form>
   </div>
 </template>
@@ -90,4 +95,65 @@ export default {
 
 <style>
 /* Add any custom styles here */
+.add-constraint {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.section-title {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.constraint-form {
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-input,
+.form-dropdown {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.input-container {
+  margin-top: 20px;
+}
+
+.error-message {
+  color: #dc3545;
+  margin-top: 10px;
+}
+
+.submit-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
 </style>
