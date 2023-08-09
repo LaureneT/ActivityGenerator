@@ -1,17 +1,20 @@
 <template>
   <constraint-form/>
   <activities-form/>
+  <search-activity-form/>
 </template>
 
 <script>
 import ConstraintForm from './components/ConstraintForm.vue';
 import ActivitiesForm from './components/ActivitiesForm.vue';
+import SearchActivityForm from './components/SearchActivityForm.vue';
 
 export default {
   name: 'App',
   components: {
     ConstraintForm,
     ActivitiesForm,
+    SearchActivityForm,
   }
 }
 </script>
