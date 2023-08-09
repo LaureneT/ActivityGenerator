@@ -1,15 +1,24 @@
 <template>
-    <div>
-      <h4>Add Constraints</h4>
-      <form>
-        <button type="button" @click="addConstraintConfig">+ Add a constraint to the activity</button>
-        <div v-for="(config, index) in configs" :key="index">
-          <activity-constraint :config=config @config-updated="updateConfig" :constraintsDropdownOptions="constraintsDropdownOptions" ></activity-constraint>
-          <button type="button" @click="removeConstraint(index)">-</button>
-        </div>
-      </form>
-    </div>
-  </template>
+  <div class="activity-constraints">
+    <h4 class="constraints-title">Add Constraints</h4>
+    <form>
+      <button class="add-constraint-button" type="button" @click="addConstraintConfig">
+        + Add a constraint to the activity
+      </button>
+      <div v-for="(config, index) in configs" :key="index" class="constraint-container">
+        <activity-constraint
+          class="single-constraint"
+          :config="config"
+          @config-updated="updateConfig"
+          :constraintsDropdownOptions="constraintsDropdownOptions"
+        ></activity-constraint>
+        <button class="remove-constraint-button" type="button" @click="removeConstraint(index)">
+          -
+        </button>
+      </div>
+    </form>
+  </div>
+</template>
   
   <script>
   import ActivityConstraint from "./ActivityConstraint.vue";
@@ -69,5 +78,57 @@
   
   <style>
   /* Add any custom styles here */
+  .activity-constraints {
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+.constraints-title {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.add-constraint-button {
+  display: block;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-constraint-button:hover {
+  background-color: #0056b3;
+}
+
+.constraint-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.single-constraint {
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+.remove-constraint-button {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.remove-constraint-button:hover {
+  background-color: #c82333;
+}
   </style>
   

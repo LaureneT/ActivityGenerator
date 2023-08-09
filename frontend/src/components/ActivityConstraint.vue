@@ -1,11 +1,13 @@
 <template>
-  <div>
+  <div class="activity-constraint">
     <form>
-      <label>Constraint: </label>
-      <select @change="constraintDropdownChanged" v-model="selectedConstraint">
-        <option v-for="option in constraintsDropdownOptions" :value="option.name" :key="option.name">{{ option.name }}</option>
-      </select>
-      <div :id="uniqueId"></div>  
+      <div class="constraint-group">
+        <label class="constraint-label">Constraint:</label>
+        <select class="constraint-dropdown" @change="constraintDropdownChanged" v-model="selectedConstraint">
+          <option v-for="option in constraintsDropdownOptions" :value="option.name" :key="option.name">{{ option.name }}</option>
+        </select>
+      </div>
+      <div :id="uniqueId" class="constraint-content"></div>
     </form>
   </div>
 </template>
@@ -108,5 +110,34 @@ export default {
 </script>
 <style>
 /* Add any custom styles here */
+.activity-constraint {
+  margin-bottom: 20px;
+}
+
+.constraint-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.constraint-label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.constraint-dropdown {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex-grow: 1;
+}
+
+.constraint-content {
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  background-color: #f5f5f5;
+}
 </style>
   

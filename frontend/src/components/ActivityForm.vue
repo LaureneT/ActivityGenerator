@@ -1,13 +1,17 @@
 <template>
-  <div>
-    <h3>Add Activity</h3>
+  <div class="activity-form">
+    <h3 class="form-title">Add Activity</h3>
     <form>
-      <div>
-        <label>Name: </label>
-      <input v-model="activity.name" type="text" />
+      <div class="form-group">
+        <label class="form-label">Name:</label>
+        <input class="form-input" v-model="activity.name" type="text" />
       </div>
 
-      <activity-constraints :configs="constraintsConfigs" @configs-updated="updateConfigs"></activity-constraints> 
+      <activity-constraints
+        class="activity-constraints"
+        :configs="constraintsConfigs"
+        @configs-updated="updateConfigs"
+      ></activity-constraints>
     </form>
   </div>
 </template>
@@ -56,5 +60,37 @@
 
 <style>
 /* Add any custom styles here */
+.activity-form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+.form-title {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.activity-constraints {
+  margin-top: 20px;
+}
 </style>
   

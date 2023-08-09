@@ -1,9 +1,9 @@
 <template>
-  <div>
-    <h2>Activities</h2>
-    <form @submit.prevent="createActivity">
+  <div class="activity-container">
+    <h2 class="section-title">Activities</h2>
+    <form class="activity-form" @submit.prevent="createActivity">
       <activity-form ref="childRef" :currentActivityJSON="JSON.stringify(activity)"></activity-form>
-      <button type="submit">Add New Activity</button>
+      <button class="submit-button" type="submit">Add New Activity</button>
     </form>
   </div>
 </template>
@@ -12,6 +12,7 @@
   import ActivityForm from './ActivityForm.vue';
   import { Activity } from './Activity.js';
   import api from '@/api.js';
+  // eslint-disable-next-line
   import { ConstraintConfig } from "./ConstraintConfig";
 
 
@@ -21,6 +22,7 @@
     },
     data() {
       return {
+        //activity: new Activity('', []),
         activity: new Activity('testActivity', [new ConstraintConfig('Energy', '7'), new ConstraintConfig('Location', 'Outside')]),
       };
     },
@@ -65,4 +67,38 @@
 
 <style>
   /* Add any custom styles here */
+  .activity-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.section-title {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.activity-form {
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+.submit-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
 </style>
