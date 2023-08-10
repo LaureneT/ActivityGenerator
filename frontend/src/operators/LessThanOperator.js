@@ -46,4 +46,7 @@ export class LessThanOperator {
         return getUserInput;
     }
 
+    validate(input, ref){
+        return ref <= input;
+    }
 }

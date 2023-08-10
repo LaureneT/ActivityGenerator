@@ -75,6 +75,9 @@ export class InOperator {
         // Return the lambda expression
         return getUserInput;
     }
+    validate(input, ref){
+        return ref == input;
+    }
 }
 
 
