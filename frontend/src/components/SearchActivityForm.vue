@@ -27,7 +27,7 @@
     import ActivityConstraint from "./ActivityConstraint.vue";
     import api from '@/api.js';
     import { ConstraintConfig } from "./ConstraintConfig";
-  
+    import { GetOperatorWithSymbol } from '../operators/Operators.js'; 
   
     export default {
       components:{
@@ -73,15 +73,14 @@
         removeConstraint(index){
           this.inputConfigs.splice(index, 1);
         },
-        search(){
+        async search(){
           var randomActivity = null;
 
-          // if validActivities not null
+          // if there are activities in DB
           if(this.activities.length > 0){
             // validate input : needs to be complete
             if(this.validateInput()){
-              const validActivities = this.getValidActivities();
-              //console.log(validActivities);
+              const validActivities = await this.getValidActivities();
               // return random constraint
               randomActivity = validActivities.length > 0 ? this.getRandomActivity(validActivities):null;
 
@@ -96,35 +95,45 @@
             console.log('TODO validating input...');
             return true
         },
-        getValidActivities(){
+        async getValidActivities(){
           var validActivities = [];
-          //console.log('TODO getvalide activities...');
           this.activities.forEach((activity) => {
-            if (this.isValid(activity)){
+            if (this.isActivityValid(activity)){
               validActivities.push(activity);
             }
           })
           return validActivities;
         },
-        async isValid(activity){
+        async isActivityValid(activity){
+          var isValid = true;
           const constraintsJSON = JSON.parse(activity.constraints)
-          // check if constraints exists for this activity
-          if (Object.keys(constraintsJSON).length != 0){
-            console.log(constraintsJSON);
+          // for each user constraint 
+          this.inputConfigs.forEach((input)=>{
             // eslint-disable-next-line
-            for (const constraint in constraintsJSON) {
-              //console.log(`Constraint: ${constraint}, Value: ${constraintsJSON[constraint]}`);
-              // check en fonction de son type de contrainte et de sa config et de L,input utilisateur
-
-              // get the constraint
-              // eslint-disable-next-line
+            if (constraintsJSON.hasOwnProperty(input.constraintName)){
+              // if one is not valid, the activity is not valid
+              isValid = this.isConstraintValid(constraintsJSON, input);
+            }
+            else{ 
+              // if the activity has no constraints it is valid by default
+              isValid = false; 
+              return isValid;
+            }
+          });
+          // if no user constraint is input, the activity is valid by default
+          return isValid
+        },
+        async isConstraintValid(constraintsJSON, input){
+          var isValid = true;
+          for (const constraint in constraintsJSON) {
+            if (constraint == input.constraintName){
+              // get the operator of the constraint
               const constraintObject = await this.getConstraintByName(constraint)
-              .then(constraintObject => {
-                  console.log('Retrieved Constraint:', constraintObject);
-                })
+              const operator = GetOperatorWithSymbol(constraintObject.type);
+              isValid = operator.validate(input.configData, constraintsJSON[constraint]);
             }
           }
-          return true;
+          return isValid;
         },
         async getConstraintByName(name){
           var constraint = null;
