@@ -55,6 +55,30 @@ app.get('/constraints', async (req, res) => {
   }
 });
 
+// Route to get a Constraint by name
+app.get('/constraints/:name', async (req, res) => {
+  try {
+    const constraintName = req.params.name;
+
+    // Find the Constraint by name in the database using Prisma
+    const constraint = await prisma.constraint.findUnique({
+      where: {
+        name: constraintName,
+      },
+    });
+
+    if (!constraint) {
+      // If the constraint is not found, return a not found response
+      return res.status(404).json({ error: 'Constraint ${constraintName} not found.' });
+    }
+
+    res.json(constraint);
+  } catch (error) {
+    console.error('Error retrieving Constraint:', error);
+    res.status(500).json({ error: 'An error occurred while retrieving the Constraint.' });
+  }
+});
+
 // Route to create a new Activity
 app.post('/activities', async (req, res) => {
   try {
