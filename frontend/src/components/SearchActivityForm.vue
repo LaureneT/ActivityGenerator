@@ -76,15 +76,12 @@
         search(){
           var randomActivity = null;
 
-          // valide activities is not null
+          // if validActivities not null
           if(this.activities.length > 0){
             // validate input : needs to be complete
             if(this.validateInput()){
-              console.log(this.inputConfigs);
-
-              // getValidActivities
               const validActivities = this.getValidActivities();
-
+              //console.log(validActivities);
               // return random constraint
               randomActivity = validActivities.length > 0 ? this.getRandomActivity(validActivities):null;
 
@@ -92,7 +89,7 @@
 
           } else{ console.log('No activities in db') }
 
-          console.log(randomActivity);
+          //console.log(randomActivity);
           return randomActivity;   
         },
         validateInput(){
@@ -100,12 +97,48 @@
             return true
         },
         getValidActivities(){
-            console.log('TODO getvalide activities...');
-            return [];
+          var validActivities = [];
+          //console.log('TODO getvalide activities...');
+          this.activities.forEach((activity) => {
+            if (this.isValid(activity)){
+              validActivities.push(activity);
+            }
+          })
+          return validActivities;
+        },
+        async isValid(activity){
+          const constraintsJSON = JSON.parse(activity.constraints)
+          // check if constraints exists for this activity
+          if (Object.keys(constraintsJSON).length != 0){
+            console.log(constraintsJSON);
+            // eslint-disable-next-line
+            for (const constraint in constraintsJSON) {
+              //console.log(`Constraint: ${constraint}, Value: ${constraintsJSON[constraint]}`);
+              // check en fonction de son type de contrainte et de sa config et de L,input utilisateur
+
+              // get the constraint
+              // eslint-disable-next-line
+              const constraintObject = await this.getConstraintByName(constraint)
+              .then(constraintObject => {
+                  console.log('Retrieved Constraint:', constraintObject);
+                })
+            }
+          }
+          return true;
+        },
+        async getConstraintByName(name){
+          var constraint = null;
+          try {
+            const response = await api.get(`/constraints/${name}`);
+            constraint = response.data;
+          } catch (error) {
+            console.error('Error getting Constraint:', error);
+          }
+          return constraint;
         },
         getRandomActivity(activities){
             console.log(activities);
-            console.log('get random activity');
+            console.log('TODO get random activity');
             return null;
         },
       },
