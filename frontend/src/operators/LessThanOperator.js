@@ -47,8 +47,7 @@ export class LessThanOperator {
     }
 
     validate(input, ref){
-        console.log('less than op is validating', input, ref);
-
+        //console.log('less than op is validating if ' + ref + '<=' + input, ref <= input);
         return ref <= input;
     }
 }

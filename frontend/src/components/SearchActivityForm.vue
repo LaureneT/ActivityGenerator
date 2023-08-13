@@ -77,63 +77,51 @@
           var randomActivity = null;
 
           // if there are activities in DB
-          if(this.activities.length > 0){
+          if(this.activities.length == 0){
+            console.log('Input is not valid')
+            return null;
+          }
             // validate input : needs to be complete
-            if(this.validateInput()){
-              const validActivities = await this.getValidActivities();
-              // return random constraint
-              randomActivity = validActivities.length > 0 ? this.getRandomActivity(validActivities):null;
-
-            } else{ console.log('Input is not valid') }
-
-          } else{ console.log('No activities in db') }
-
+          if(!this.validateInput()){
+            console.log('Input is not valid')
+          }
+          const validActivities = await this.getValidActivities();
+          console.log(validActivities);
+          // return random constraint
+          randomActivity = validActivities.length > 0 ? this.getRandomActivity(validActivities):null;
           //console.log(randomActivity);
           return randomActivity;   
         },
         validateInput(){
-            console.log('TODO validating input...');
+            //console.log('TODO validating input...');
             return true
         },
         async getValidActivities(){
           var validActivities = [];
-          this.activities.forEach((activity) => {
-            if (this.isActivityValid(activity)){
+          this.activities.forEach(async (activity) => {
+            if (await this.isActivityValid(activity)){
               validActivities.push(activity);
             }
           })
           return validActivities;
         },
         async isActivityValid(activity){
-          var isValid = true;
-          const constraintsJSON = JSON.parse(activity.constraints)
-          // for each user constraint 
-          this.inputConfigs.forEach((input)=>{
+          const constraintsConfig = JSON.parse(activity.constraints)
+          for (const input of this.inputConfigs)
+          {
             // eslint-disable-next-line
-            if (constraintsJSON.hasOwnProperty(input.constraintName)){
-              // if one is not valid, the activity is not valid
-              isValid = this.isConstraintValid(constraintsJSON, input);
-            }
-            else{ 
-              // if the activity has no constraints it is valid by default
-              isValid = false; 
-              return isValid;
-            }
-          });
-          // if no user constraint is input, the activity is valid by default
-          return isValid
-        },
-        async isConstraintValid(constraintsJSON, input){
-          var isValid = true;
-          for (const constraint in constraintsJSON) {
-            if (constraint == input.constraintName){
-              // get the operator of the constraint
-              const constraintObject = await this.getConstraintByName(constraint)
-              const operator = GetOperatorWithSymbol(constraintObject.type);
-              isValid = operator.validate(input.configData, constraintsJSON[constraint]);
+            if (constraintsConfig.hasOwnProperty(input.constraintName)){
+              if (!await this.isConstraintValid(constraintsConfig, input)){
+                return false;
+              }
             }
           }
-          return isValid;
+          return true;
+        },
+        async isConstraintValid(constraintsConfig, input){
+          const constraint = await this.getConstraintByName(input.constraintName);
+          const operator = GetOperatorWithSymbol(constraint.type);
+          return operator.validate(input.configData, constraintsConfig[input.constraintName]);
         },
         async getConstraintByName(name){
           var constraint = null;
@@ -145,9 +133,9 @@
           }
           return constraint;
         },
+        // eslint-disable-next-line
         getRandomActivity(activities){
-            console.log(activities);
-            console.log('TODO get random activity');
+            //console.log('TODO get random activity');
             return null;
         },
       },

@@ -76,7 +76,7 @@ export class InOperator {
         return getUserInput;
     }
     validate(input, ref){
-        console.log('in op is validating', input, ref);
+        //console.log('in op is validating if ' + input + ' == ' + ref, ref == input);
         return ref == input;
     }
 }
