@@ -4,6 +4,7 @@
     <form class="activity-form" @submit.prevent="createActivity">
       <activity-form ref="childRef" :currentActivityJSON="JSON.stringify(activity)"></activity-form>
       <button class="submit-button" type="submit">Add new activity</button>
+      <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
     </form>
   </div>
 </template>
@@ -24,6 +25,7 @@
       return {
         activity: new Activity('', []),
         //activity: new Activity('testActivity', [new ConstraintConfig('Energy', '7'), new ConstraintConfig('Location', 'Outside')]),
+        successMessage: '',
       };
     },
     methods: {
@@ -32,16 +34,17 @@
         const activity = this.accessActivity();
         // format constraintConfigs before sending to DB
         const formattedConfigs = this.formatConstraintConfig(activity.constraintConfigs);
-        console.log(formattedConfigs);
         try {
             const response = await api.post('/activities', {
             name: activity.name,
             constraints: JSON.stringify(formattedConfigs),
             })
             console.log('Activity successfully created.');
+            this.successMessage = 'Activity created successfully!';
             return response.data;
         } catch (error) {
             console.error('Error creating Constraint:', error);
+            this.successMessage = '';
             //throw new Error('An error occurred while creating the Constraint.');
         }
       },
@@ -50,11 +53,9 @@
       },
       formatConstraintConfig(constraintConfigs){
         var result = {};
-        console.log(constraintConfigs);
         for (const i in constraintConfigs)
         {
           const config = constraintConfigs[i];
-          console.log(config);
           result[config.constraintName] = config.configData;
         }
         return result;
@@ -66,7 +67,6 @@
 </script>
 
 <style>
-  /* Add any custom styles here */
   .activity-container {
   max-width: 600px;
   margin: 0 auto;

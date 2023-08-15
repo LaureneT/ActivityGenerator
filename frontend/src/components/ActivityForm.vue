@@ -5,6 +5,7 @@
       <div class="form-group">
         <label class="form-label">Activity name:</label>
         <input class="form-input" v-model="activity.name" type="text" />
+        <p v-if="!activityNameValid" class="error-message">Activity name is required.</p>
       </div>
 
       <activity-constraints
@@ -31,6 +32,7 @@
       return {
         activity: new Activity(),
         constraintsConfigs: JSON.parse(this.currentActivityJSON).constraintConfigs,
+        activityNameValid: true,
       };
     },
     watch: {
@@ -46,6 +48,7 @@
       drawExistingData(){
         this.activity.name = JSON.parse(this.currentActivityJSON).name;
         this.activity.constraintConfigs = this.constraintsConfigs;
+        this.activityNameValid = this.activity.name != '';
       },
       updateConfigs(updatedConfigs){
         // automatically update this.constraintsConfigs
@@ -59,7 +62,6 @@
 </script>
 
 <style>
-/* Add any custom styles here */
 .activity-form {
   background-color: #fff;
   padding: 20px;
