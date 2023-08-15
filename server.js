@@ -27,6 +27,11 @@ app.post('/constraints', async (req, res) => {
       return res.status(400).json({ error: 'A constraint with the same name already exists.' });
     }
 
+    if(!name || name == '' || !type || type == ''){
+      // If the name is empty, return an error response
+      return res.status(400).json({ error: 'Cannot create a constraint with an empty name or an empty type.' });
+    }
+
     // Create a new Constraint in the database using Prisma
     const newConstraint = await prisma.constraint.create({
       data: {
