@@ -19,6 +19,9 @@
         <div>
           <button type="submit">Search</button>
         </div>
+        <div> 
+          <h2 id="proposedActivity">{{ proposedActivity }}</h2>
+        </div>
       </form>
     </div>
   </template>
@@ -38,6 +41,7 @@
           constraintsDropdownOptions: [],
           inputConfigs: [],
           activities: [],
+          proposedActivity: 'no activity',
         };
       },
       methods: {
@@ -88,8 +92,11 @@
           const validActivities = await this.getValidActivities();
           console.log(validActivities);
           // return random constraint
-          randomActivity = validActivities.length > 0 ? this.getRandomActivity(validActivities):null;
-          //console.log(randomActivity);
+          randomActivity = this.getRandomActivity(validActivities);
+          this.proposedActivity = randomActivity.name
+          console.log(randomActivity);
+          console.log(this.proposedActivity);
+          // faire qqch si cest nul
           return randomActivity;   
         },
         validateInput(){
@@ -135,8 +142,12 @@
         },
         // eslint-disable-next-line
         getRandomActivity(activities){
-            //console.log('TODO get random activity');
-            return null;
+            if (!Array.isArray(activities) || activities.length === 0) {
+              console.log("No activities available.");
+              return 'no activity';
+            }
+            const randomIndex = Math.floor(Math.random() * activities.length);
+            return activities[randomIndex];
         },
       },
       mounted() {
