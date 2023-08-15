@@ -1,30 +1,33 @@
 <template>
-    <h1>Search for an activity</h1>
-    <div>
-      <h4>What are your constraints?</h4>
-      <form @submit.prevent="search">
-        <button type="button" @click="addConstraintConfig">
-          + Add a new constraint
+  <div class="search-activity">
+    <h1 class="page-title">Search for an Activity</h1>
+    <div class="constraints-section">
+      <h4 class="section-title">What are your Constraints?</h4>
+      <form @submit.prevent="search" class="search-form">
+        <button class="add-constraint-button" type="button" @click="addConstraintConfig">
+          + Add a New Constraint
         </button>
-        <div v-for="(config, index) in inputConfigs" :key="index">
+        <div v-for="(config, index) in inputConfigs" :key="index" class="constraint-container">
           <activity-constraint
+            class="single-constraint"
             :config="config"
             @config-updated="updateConfig"
             :constraintsDropdownOptions="constraintsDropdownOptions"
           ></activity-constraint>
-          <button type="button" @click="removeConstraint(index)">
+          <button class="remove-constraint-button" type="button" @click="removeConstraint(index)">
             -
           </button>
         </div>
-        <div>
-          <button type="submit">Search</button>
+        <div class="search-button-container">
+          <button class="search-button" type="submit">Search</button>
         </div>
-        <div> 
-          <h2 id="proposedActivity">{{ proposedActivity }}</h2>
+        <div class="proposed-activity">
+          <h2 class="proposed-activity-title" id="proposedActivity">Proposed Activity: {{ proposedActivity }}</h2>
         </div>
       </form>
     </div>
-  </template>
+  </div>
+</template>
     
     <script>
     import ActivityConstraint from "./ActivityConstraint.vue";
@@ -158,6 +161,85 @@
     </script>
     
     <style>
-    /* Add any custom styles here */
+      .search-activity {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .page-title {
+        font-size: 32px;
+        margin-bottom: 20px;
+      }
+
+      .constraints-section {
+        background-color: #f5f5f5;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+      }
+
+      .section-title {
+        font-size: 24px;
+        margin-bottom: 15px;
+      }
+
+      .search-form {
+        margin-top: 15px;
+      }
+
+      .add-constraint-button,
+      .remove-constraint-button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 6px 10px;
+        margin-right: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .add-constraint-button:hover,
+      .remove-constraint-button:hover {
+        background-color: #0056b3;
+      }
+
+      .constraint-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .single-constraint {
+        flex-grow: 1;
+        margin-right: 10px;
+      }
+
+      .search-button-container {
+        margin-top: 20px;
+      }
+
+      .search-button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+      }
+
+      .search-button:hover {
+        background-color: #218838;
+      }
+
+      .proposed-activity-title {
+        font-size: 24px;
+        margin-top: 20px;
+      }
     </style>
     
