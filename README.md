@@ -1,5 +1,5 @@
 # ActivityGeneratorV2
- 
+ WIP, the readme will be updated soon.
 # Start server 
 'npm start' in racine
 
