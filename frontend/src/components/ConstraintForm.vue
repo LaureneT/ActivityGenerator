@@ -5,6 +5,7 @@
       <div class="form-group">
         <label class="form-label">Constraint name:</label>
         <input class="form-input" v-model="name" type="text" />
+        <p v-if="!nameValid" class="error-message">Constraint name is required.</p>
       </div>
 
       <div class="form-group">
@@ -15,17 +16,18 @@
           @change="onOperatorDropdownChange"
           v-model="selectedType"
         >
+          <option value="" disabled>Select constraint type</option>
           <option v-for="option in operatorTypes" :value="option" :key="option">{{ option }}</option>
         </select>
+        <p v-if="!typeValid" class="error-message">Constraint type is required.</p>
       </div>
 
       <!-- Show fields based on the selected type of operator -->
-       <div id="inputSetupValuesContainer" class="input-container"></div>
+      <div id="inputSetupValuesContainer" class="input-container"></div>
 
-      <!-- TODO Afficher un message d'erreur si la contrainte existe déjà -->
-      <p v-if="error" class="error-message">{{ error }}</p>
-      
       <button class="submit-button" type="submit">Add new constraint</button>
+
+      <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
     </form>
   </div>
 </template>
@@ -44,6 +46,9 @@ export default {
       exists: false,
       error: '',
       operator: null,
+      nameValid: true,
+      typeValid: true,
+      successMessage: '',
     };
   },
   methods: {
@@ -60,32 +65,43 @@ export default {
           });
       }
     },
-    // eslint-disable-next-line
     onOperatorDropdownChange(event) {
       const valuesContainer = document.getElementById('inputSetupValuesContainer');
       const selectedIndex = event.target.selectedIndex;
-      this.operator = operators[selectedIndex];
+      this.operator = operators[selectedIndex-1];
       this.clearContainer(valuesContainer);
       this.operator.drawSetup(valuesContainer);
     },
     // Function to create a new Constraint
     async createConstraint() {
-      // TODO draw error : 'need to fill the fields'
-      try {
-        if (this.operator) {
-          const response = await api.post('/constraints', {
-            name: this.name,
-            type: this.selectedType,
-            values: this.operator.getValuesAsJSON(),
-          });
-          return response.data;
+      this.validateForm();
+
+      if (this.nameValid && this.typeValid) {
+        try {
+          if (this.operator) {
+            const response = await api.post('/constraints', {
+              name: this.name,
+              type: this.selectedType,
+              values: this.operator.getValuesAsJSON(),
+            });
+            console.log('Constraint sucessfully created.');
+            this.successMessage = 'Constraint created successfully!';
+            this.resetFormFields(); 
+            return response.data;
+          }
+        } catch (error) {
+          console.error('Error creating Constraint:', error);
         }
-        console.error('Constraint sucessfully created.');
-      } catch (error) {
-        console.error('Error creating Constraint:', error);
-        throw new Error('An error occurred while creating the Constraint.');
       }
-    }
+    },
+    validateForm() {
+      this.nameValid = this.name.trim() !== '';
+      this.typeValid = this.selectedType !== '';
+    },
+    resetFormFields() {
+      this.name = '';
+      this.selectedType = '';
+    },
   },
   mounted() {
     this.fetchOperatorTypes();
@@ -155,5 +171,10 @@ export default {
 
 .submit-button:hover {
   background-color: #0056b3;
+}
+
+.success-message {
+  color: #28a745;
+  margin-top: 10px;
 }
 </style>
