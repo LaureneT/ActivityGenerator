@@ -1,9 +1,9 @@
 <template>
   <div class="activity-constraints">
-    <h4 class="constraints-title">Add Constraints</h4>
+    <h4 class="constraints-title">Add constraints to the activity</h4>
     <form>
       <button class="add-constraint-button" type="button" @click="addConstraintConfig">
-        + Add a constraint to the activity
+        + Add a new constraint
       </button>
       <div v-for="(config, index) in configs" :key="index" class="constraint-container">
         <activity-constraint
@@ -118,7 +118,7 @@
 }
 
 .remove-constraint-button {
-  background-color: #dc3545;
+  background-color: #d7172a;
   color: #fff;
   border: none;
   border-radius: 4px;

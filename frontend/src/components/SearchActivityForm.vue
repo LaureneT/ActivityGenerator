@@ -1,11 +1,11 @@
 <template>
   <div class="search-activity">
-    <h1 class="page-title">Search for an Activity</h1>
+    <h1 class="page-title">Search for an activity</h1>
     <div class="constraints-section">
-      <h4 class="section-title">What are your Constraints?</h4>
+      <h4 class="section-title">What are your constraints?</h4>
       <form @submit.prevent="search" class="search-form">
         <button class="add-constraint-button" type="button" @click="addConstraintConfig">
-          + Add a New Constraint
+          + Add a new constraint
         </button>
         <div v-for="(config, index) in inputConfigs" :key="index" class="constraint-container">
           <activity-constraint
@@ -186,23 +186,6 @@
 
       .search-form {
         margin-top: 15px;
-      }
-
-      .add-constraint-button,
-      .remove-constraint-button {
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        padding: 6px 10px;
-        margin-right: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-      }
-
-      .add-constraint-button:hover,
-      .remove-constraint-button:hover {
-        background-color: #0056b3;
       }
 
       .constraint-container {

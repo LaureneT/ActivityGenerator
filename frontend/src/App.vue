@@ -1,4 +1,6 @@
 <template>
+  <h1>Activity generator</h1>
+  <h5>A demo projet from Laurene Tavella</h5>
   <constraint-form/>
   <activities-form/>
   <search-activity-form/>

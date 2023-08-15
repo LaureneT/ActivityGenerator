@@ -3,7 +3,7 @@
     <h2 class="section-title">Activities</h2>
     <form class="activity-form" @submit.prevent="createActivity">
       <activity-form ref="childRef" :currentActivityJSON="JSON.stringify(activity)"></activity-form>
-      <button class="submit-button" type="submit">Add New Activity</button>
+      <button class="submit-button" type="submit">Add new activity</button>
     </form>
   </div>
 </template>

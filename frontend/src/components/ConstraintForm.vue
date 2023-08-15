@@ -1,14 +1,14 @@
 <template>
   <div class="add-constraint">
-    <h2 class="section-title">Add Constraint</h2>
+    <h2 class="section-title">Add a constraint</h2>
     <form @submit.prevent="createConstraint" class="constraint-form">
       <div class="form-group">
-        <label class="form-label">Name:</label>
+        <label class="form-label">Constraint name:</label>
         <input class="form-input" v-model="name" type="text" />
       </div>
 
       <div class="form-group">
-        <label class="form-label">Type:</label>
+        <label class="form-label">Constraint type:</label>
         <select
           class="form-dropdown"
           id="operatorDropdown"
@@ -25,7 +25,7 @@
       <!-- TODO Afficher un message d'erreur si la contrainte existe déjà -->
       <p v-if="error" class="error-message">{{ error }}</p>
       
-      <button class="submit-button" type="submit">Add New Constraint</button>
+      <button class="submit-button" type="submit">Add new constraint</button>
     </form>
   </div>
 </template>
