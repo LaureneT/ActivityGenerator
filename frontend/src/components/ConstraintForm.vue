@@ -46,8 +46,8 @@ export default {
       exists: false,
       error: '',
       operator: null,
-      nameValid: true,
-      typeValid: true,
+      nameValid: false,
+      typeValid: false,
       successMessage: '',
     };
   },
@@ -110,7 +110,6 @@ export default {
 </script>
 
 <style>
-/* Add any custom styles here */
 .add-constraint {
   max-width: 600px;
   margin: 0 auto;
