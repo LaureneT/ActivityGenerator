@@ -96,6 +96,11 @@ app.post('/activities', async (req, res) => {
       return res.status(400).json({ error: 'An activity with the same name already exists.' });
     }
 
+    if(!name || name == ''){
+      // If the name is empty, return an error response
+      return res.status(400).json({ error: 'Cannot create an activity with an empty name.' });
+    }
+
     // Create a new Activity in the database using Prisma
     const newActivity = await prisma.activity.create({
       data: {

@@ -1,2 +1,3 @@
 -- SQLite
-DELETE FROM "Activity";
+DELETE FROM "Activity"
+WHERE name = '';
