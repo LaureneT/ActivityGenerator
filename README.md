@@ -108,10 +108,15 @@ The Activity Generator utilizes a modern tech stack for efficient and seamless p
 
 ## Screenshots
 
+Add some constraints:
 ![Add a '<=' constraint ](screenshots/add-constraint-example-lessthan.png)
 ![Add a 'IN' constraint with values](screenshots/add-constraint-example-in.png)
+
+Add some activities:
 ![Add an activity with some constraints](screenshots/add-activity-example.png)
 ![Search section](screenshots/search-section.png)
+
+Use the generator:
 ![Search an activity with some input constraints](screenshots/search-with-input-constraints.png)
 
 ## License
