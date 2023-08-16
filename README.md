@@ -41,7 +41,7 @@ To experience the Activity Generator firsthand and explore its functionalities, 
 
 Before you begin, ensure you have the following tools and software installed on your system:
 
-- Node.js (version X.X or higher)
+- Node.js (version 18.16 or higher)
 - npm (usually comes with Node.js installation)
 
 ### Installation
