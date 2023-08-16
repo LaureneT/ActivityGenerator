@@ -45,7 +45,6 @@
         } catch (error) {
             console.error('Error creating Constraint:', error);
             this.successMessage = '';
-            //throw new Error('An error occurred while creating the Constraint.');
         }
       },
       accessActivity(){

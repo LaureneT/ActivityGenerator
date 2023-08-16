@@ -1,7 +1,7 @@
 <template>
   <div class="activity-form">
     <h3 class="form-title">Add an activity</h3>
-    <form>
+    <form @submit.prevent="createActivity">
       <div class="form-group">
         <label class="form-label">Activity name:</label>
         <input class="form-input" v-model="activity.name" type="text" />

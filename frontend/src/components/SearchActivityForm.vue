@@ -18,6 +18,7 @@
             -
           </button>
         </div>
+        <p v-if="!inputValid" class="error-message">Input constraints are invalid or incomplete.</p>
         <div class="search-button-container">
           <button class="search-button" type="submit">Search</button>
         </div>
@@ -45,6 +46,7 @@
           inputConfigs: [],
           activities: [],
           proposedActivity: 'no activity',
+          inputValid: true,
         };
       },
       methods: {
@@ -83,28 +85,27 @@
         async search(){
           var randomActivity = null;
 
-          // if there are activities in DB
+          // if there are no activities in DB
           if(this.activities.length == 0){
-            console.log('Input is not valid')
+            console.log('No activity in DB');
             return null;
           }
-            // validate input : needs to be complete
+
           if(!this.validateInput()){
-            console.log('Input is not valid')
+            console.log('Input is not valid');
+            this.inputValid = false;
+            return null;
           }
           const validActivities = await this.getValidActivities();
-          console.log(validActivities);
           // return random constraint
           randomActivity = this.getRandomActivity(validActivities);
           this.proposedActivity = randomActivity.name
-          console.log(randomActivity);
-          console.log(this.proposedActivity);
           // faire qqch si cest nul
           return randomActivity;   
         },
         validateInput(){
             //console.log('TODO validating input...');
-            return true
+            return true;
         },
         async getValidActivities(){
           var validActivities = [];

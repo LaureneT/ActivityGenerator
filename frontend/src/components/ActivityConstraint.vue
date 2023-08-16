@@ -6,6 +6,7 @@
         <select class="constraint-dropdown" @change="constraintDropdownChanged" v-model="selectedConstraint">
           <option v-for="option in constraintsDropdownOptions" :value="option.name" :key="option.name">{{ option.name }}</option>
         </select>
+        <p v-if="!selectedConstraint" class="error-message">Please select a constraint.</p>
       </div>
       <div :id="uniqueId" class="constraint-content"></div>
     </form>
@@ -138,6 +139,11 @@ export default {
   border-radius: 4px;
   padding: 10px;
   background-color: #f5f5f5;
+}
+
+.error-message {
+  color: #d7172a;
+  margin-top: 5px;
 }
 </style>
   

@@ -1,9 +1,9 @@
 <template>
   <h1>Activity generator</h1>
-  <h5>A demo projet from Laurene Tavella</h5>
   <search-activity-form/>
   <activities-form/>
   <constraint-form/>
+  <h6>A demo project from Laurene Tavella</h6>
 </template>
 
 <script>
