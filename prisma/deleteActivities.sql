@@ -1,3 +1,3 @@
 -- SQLite
 DELETE FROM "Activity"
-WHERE name = '';
+WHERE name LIKE '%Activity%';
