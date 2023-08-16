@@ -74,20 +74,20 @@ Once both the backend and frontend servers are running, you can use the Activity
 
 You have the flexibility to create new constraint types to enhance the specificity of your activity suggestions:
 
-- In the application interface, find the "Add Constraint Type" section.
+- In the application interface, find the "Add a constraint" section.
 - Enter a name for the new constraint type (e.g., "Mood," "Weather").
 - Choose an operator for the constraint type. Currently, the supported operators are <= (less than or equal to) and IN (inclusive range).
-- Save the new constraint type by clicking the "Add Constraint Type" button. 
-- You can then choose this constraint in the "Add Activity" section.
+- Save the new constraint type by clicking the "Add new constraint" button. 
+- You can then choose this constraint in the "Add an activity" section.
 
 ### Creating a New Activity
 
 To add a new activity to the Activity Generator, follow these steps:
 
-- In the application interface, locate the "Add Activity" section.
+- In the application interface, locate the "Add an activity" section.
 - Provide a name for the activity in the designated input field.
 - Assign relevant constraints to the activity. For example, you can specify that the activity requires a certain energy level or must be done indoors.
-- Click the "Add Activity" button to save the new activity to the database.
+- Click the "Add new activity" button to save the new activity to the database.
 
 ### Using Constraint Operators
 
