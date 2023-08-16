@@ -46,8 +46,8 @@ Before you begin, ensure you have the following tools and software installed on 
 
 ### Installation
 
-1. Clone this repository: `git clone https://github.com/your-username/activity-generator.git`
-2. Navigate to the project directory: `cd activity-generator`
+1. Clone this repository: `git clone https://github.com/LaureneT/ActivityGenerator.git`
+2. Navigate to the project directory: `cd ActivityGenerator`
 3. Install Backend Dependencies: `npm install`
 4. Navigate to the Frontend Directory: `cd ./frontend`
 5. Install Frontend Dependencies: `npm install`
